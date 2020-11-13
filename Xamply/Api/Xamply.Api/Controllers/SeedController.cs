@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamply.Api.Common;
 using Xamply.Api.Services;
+using Xamply.Api.Services.Common;
 using Xamply.Data;
 using Xamply.Data.Models;
 
@@ -61,7 +61,7 @@ namespace Xamply.Api.Controllers
             };
 
             await this.userManager.CreateAsync(adminUser, Admin.Password);
-            await this.userManager.AddToRoleAsync(adminUser, Roles.Admin);
+            await this.userManager.AddToRoleAsync(adminUser, Xamply.Api.Services.Common.Roles.Admin);
 
             var categoryNames = new List<string> { "History", "Politics", "Art", "Sports", "Geography", "Mythology" };
 

@@ -15,17 +15,17 @@ class Dashboard extends React.Component {
               <span className="card-title">{category.name}</span>
               <p>
                 <label>
-                  <input name="category-difficult" type="radio" className="with-gap" />
+                  <input name="difficulty" type="radio" className="with-gap" />
                   <span>Eazy</span>
                 </label>
                 <br />
                 <label>
-                  <input name="category-difficult" type="radio" className="with-gap" />
+                  <input name="difficulty" type="radio" className="with-gap" />
                   <span>Medium</span>
                 </label>
                 <br />
                 <label>
-                  <input name="category-difficult" type="radio" className="with-gap" />
+                  <input name="difficulty" type="radio" className="with-gap" />
                   <span>Hard</span>
                 </label>
               </p>

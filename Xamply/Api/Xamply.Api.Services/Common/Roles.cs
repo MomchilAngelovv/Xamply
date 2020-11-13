@@ -1,4 +1,4 @@
-﻿namespace Xamply.Api.Common
+﻿namespace Xamply.Api.Services.Common
 {
     public static class Roles
     {

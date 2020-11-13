@@ -1,4 +1,8 @@
-﻿namespace Xamply.Api.Common
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Xamply.Api.Services.Common
 {
     public static class Admin
     {

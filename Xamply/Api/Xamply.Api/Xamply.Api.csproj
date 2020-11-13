@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Xamply.Data\Xamply.Data.csproj" />
+    <ProjectReference Include="..\Xamply.Api.Models\Xamply.Api.Models.csproj" />
     <ProjectReference Include="..\Xamply.Api.Services\Xamply.Api.Services.csproj" />
   </ItemGroup>
 

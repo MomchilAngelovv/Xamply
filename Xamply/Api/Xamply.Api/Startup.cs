@@ -12,6 +12,7 @@ namespace Xamply.Api
     using Xamply.Data.Models;
     using Microsoft.AspNetCore.Identity;
     using System;
+    using Xamply.Api.Utilities;
 
     public class Startup
     {
@@ -53,12 +54,20 @@ namespace Xamply.Api
             .AddEntityFrameworkStores<XamplyDbContext>()
             .AddDefaultTokenProviders();
 
+            services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IDifficultiesService, DifficultiesService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options =>
+            {
+                options.AllowAnyOrigin();
+                options.AllowAnyMethod();
+                options.AllowAnyHeader();
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -67,6 +76,7 @@ namespace Xamply.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseMiddleware<ParseAuthorizationToken>();
 
             app.UseEndpoints(endpoints =>
             {
