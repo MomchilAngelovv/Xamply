@@ -13,8 +13,22 @@ class Dashboard extends React.Component {
           <div className="card blue-grey darken-1">
             <div className="card-content white-text">
               <span className="card-title">{category.name}</span>
-              <p>I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.</p>
+              <p>
+                <label>
+                  <input name="category-difficult" type="radio" className="with-gap" />
+                  <span>Eazy</span>
+                </label>
+                <br />
+                <label>
+                  <input name="category-difficult" type="radio" className="with-gap" />
+                  <span>Medium</span>
+                </label>
+                <br />
+                <label>
+                  <input name="category-difficult" type="radio" className="with-gap" />
+                  <span>Hard</span>
+                </label>
+              </p>
             </div>
             <div className="card-action">
               <button>Start test</button>
