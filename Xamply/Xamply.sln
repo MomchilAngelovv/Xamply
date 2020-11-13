@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30709.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{D51A18F4-6F47-4D13-9885-55EB03200353}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{5149A468-541D-4A5B-8C10-CFB5C6FA2C6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{84774A6F-0CAB-41CB-B16A-E68CA9788535}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamply.Web", "Web\Xamply.Web\Xamply.Web.csproj", "{6BBD04BF-514A-4DFA-B8F8-E70E084BA5AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6BBD04BF-514A-4DFA-B8F8-E70E084BA5AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BBD04BF-514A-4DFA-B8F8-E70E084BA5AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BBD04BF-514A-4DFA-B8F8-E70E084BA5AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BBD04BF-514A-4DFA-B8F8-E70E084BA5AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6BBD04BF-514A-4DFA-B8F8-E70E084BA5AE} = {D51A18F4-6F47-4D13-9885-55EB03200353}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A305A42-1976-4834-91AF-1C9C83AA3B5A}
+	EndGlobalSection
+EndGlobal
