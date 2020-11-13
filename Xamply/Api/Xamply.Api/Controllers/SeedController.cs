@@ -1,16 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Xamply.Api.Services;
-using Xamply.Api.Services.Common;
-using Xamply.Data;
-using Xamply.Data.Models;
-
-namespace Xamply.Api.Controllers
+﻿namespace Xamply.Api.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
+
+    using Xamply.Data.Models;
+    using Xamply.Api.Services;
+    using Xamply.Api.Services.Common;
+
     [ApiController]
     [Route("[controller]")]
     public class SeedController : ControllerBase

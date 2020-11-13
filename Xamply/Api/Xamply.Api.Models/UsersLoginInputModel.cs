@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Xamply.Api.Models
+﻿namespace Xamply.Api.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class UsersLoginInputModel
     {
         [Required]

@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Xamply.Api.Utilities
+﻿namespace Xamply.Api.Utilities
 {
+    using System;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.IdentityModel.Tokens.Jwt;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.IdentityModel.Tokens;
+    using Microsoft.Extensions.Configuration;
+
     public class ParseAuthorizationToken
     {
         private readonly RequestDelegate next;
