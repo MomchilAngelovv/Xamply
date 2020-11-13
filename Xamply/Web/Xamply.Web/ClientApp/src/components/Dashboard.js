@@ -3,7 +3,7 @@
 class Dashboard extends React.Component {
   render() {
     return (
-      <h1>Hello from dashboard</h1>
+      <h1>Choose category:</h1>
     );
   }
 }
