@@ -28,7 +28,7 @@
             return category;
         }
 
-        public IQueryable<Category> GetAllAsQuarable()
+        public IQueryable<Category> GetAll()
         {
             return this.db.Categories;
         }

@@ -45,9 +45,12 @@
 
             var response = new
             {
-                user.Id,
-                user.Email,
-                AccessToken = user.MetaData
+                CurrentUser = new
+                {
+                    user.Id,
+                    user.Email,
+                    AccessToken = user.MetaData
+                },
             };
 
             return response;

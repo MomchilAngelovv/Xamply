@@ -26,7 +26,7 @@
 
             if (authHeader != null)
             {
-                var token = authHeader?.Replace("Bearer ", string.Empty);
+                var token = authHeader.Replace("Bearer ", string.Empty);
                 var principal = new JwtSecurityTokenHandler()
                     .ValidateToken(
                         token,

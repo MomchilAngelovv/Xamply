@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamply.Api.Services;
 
 namespace Xamply.Api.Controllers
@@ -21,7 +18,7 @@ namespace Xamply.Api.Controllers
         public ActionResult<object> Get()
         {
             var categories = this.categoriesService
-                .GetAllAsQuarable()
+                .GetAll()
                 .Select(category => new
                 {
                     category.Id,
