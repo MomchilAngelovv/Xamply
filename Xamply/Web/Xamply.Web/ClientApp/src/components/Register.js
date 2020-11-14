@@ -34,7 +34,7 @@ class Register extends React.Component {
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <button type="submit" className="btn waves-effect waves-light">Submit<i className="material-icons right">send</i></button>
+                <button type="submit" className="btn waves-effect waves-light">Register<i className="material-icons right">send</i></button>
               </div>
             </div>
           </form>

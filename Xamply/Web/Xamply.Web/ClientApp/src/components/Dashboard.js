@@ -6,7 +6,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Choose category:</h1>
+        <h1 className="center-align">Choose category:</h1>
         {this.renderCategories()}
       </React.Fragment>
     );

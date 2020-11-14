@@ -8,7 +8,7 @@ class NavigationBar extends React.Component {
     return (
       <nav className="grey darken-2">
         <div className="nav-wrapper">
-          <Link to="/" className="brand-logo">Logo</Link>
+          <Link to="/" className="brand-logo center">Xamply</Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             {this.renderUserButtons()}
           </ul>
