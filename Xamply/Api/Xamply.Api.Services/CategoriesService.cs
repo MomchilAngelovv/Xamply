@@ -1,5 +1,6 @@
 ﻿namespace Xamply.Api.Services
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Xamply.Data;
@@ -25,6 +26,11 @@
             await this.db.SaveChangesAsync();
 
             return category;
+        }
+
+        public IQueryable<Category> GetAllAsQuarable()
+        {
+            return this.db.Categories;
         }
     }
 }

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
 
-export class NavigationBar extends React.Component {
+class NavigationBar extends React.Component {
   render() {
     return (
       <nav className="grey darken-2">
@@ -17,3 +18,18 @@ export class NavigationBar extends React.Component {
     );
   }
 }
+
+const mapState = (state, props) => {
+  return {
+    categories: state.categories
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+
+  }
+}
+
+export default connect(mapState, mapDispatch)(NavigationBar)
+

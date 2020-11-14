@@ -1,6 +1,6 @@
 ﻿let initialState = {
   currentUser: null,
-  categories: [{ name: "Maths" }, { name: "Art" }]
+  categories: []
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -9,6 +9,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, currentUser: action.payload }
     case "LOGOUT":
       return { ...state, currentUser: null }
+    case "FETCH_CATEGORIES":
+      return { ...state, categories: action.payload }
     default:
       return state;
   }
