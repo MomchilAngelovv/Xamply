@@ -1,15 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
+import { usersActions } from '../actions/UsersActions'
 
 class NavigationBar extends React.Component {
   render() {
     return (
       <nav className="grey darken-2">
         <div className="nav-wrapper">
-          <a href="#" className="brand-logo">Logo</a>
+          <Link to="/" className="brand-logo">Logo</Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            { this.renderUserButtons() }
+            {this.renderUserButtons()}
           </ul>
         </div>
       </nav>
@@ -21,7 +22,7 @@ class NavigationBar extends React.Component {
       return (
         <React.Fragment>
           <li><Link to="/login">Login</Link></li>
-          <li><Link to="/">Register</Link></li>
+          <li><Link to="/register">Register</Link></li>
         </React.Fragment>
       )
     }
@@ -29,9 +30,13 @@ class NavigationBar extends React.Component {
     return (
       <React.Fragment>
         <li><Link to="/">Profile</Link></li>
-        <li><Link to="/">Logout</Link></li>
+        <li><a onClick={this.logout}>Logout</a></li>
       </React.Fragment>
     )
+  }
+
+  logout = () => {
+    this.props.logout()
   }
 }
 
@@ -44,7 +49,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = (dispatch) => {
   return {
-
+    logout: () => dispatch(usersActions.logout())
   }
 }
 

@@ -5,7 +5,7 @@
       payload: currentUser
     }
   },
-  logout: (videos) => {
+  logout: () => {
     return {
       type: "LOGOUT",
       payload: {}

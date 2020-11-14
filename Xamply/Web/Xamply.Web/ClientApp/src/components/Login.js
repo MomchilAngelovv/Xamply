@@ -22,12 +22,10 @@ class Login extends React.Component {
           <form className="col s12" onSubmit={(event) => this.login(event)}>
             <div className="row">
               <div className="input-field col s6">
-                <input onChange={(event) => this.loginFormChange(event)} name="email" type="text" placeholder="Email:" className="validate" />
-                <label htmlFor="email">First Name</label>
+                <input onChange={(event) => this.loginFormChange(event)} id="email" name="email" type="text" placeholder="Email:" className="validate" />
               </div>
               <div className="input-field col s6">
                 <input onChange={(event) => this.loginFormChange(event)} name="password" type="password" placeholder="Password:" className="validate" />
-                <label htmlFor="password">Last Name</label>
               </div>
             </div>
             <div className="row">
@@ -37,6 +35,7 @@ class Login extends React.Component {
             </div>
           </form>
         </div>
+       
       </React.Fragment>
     );
   }
