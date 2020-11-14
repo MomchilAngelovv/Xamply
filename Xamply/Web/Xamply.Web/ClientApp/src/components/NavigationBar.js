@@ -29,7 +29,7 @@ class NavigationBar extends React.Component {
 
     return (
       <React.Fragment>
-        <li><Link to="/">Profile</Link></li>
+        <li><Link to="/profile">Profile</Link></li>
         <li><a onClick={this.logout}>Logout</a></li>
       </React.Fragment>
     )
