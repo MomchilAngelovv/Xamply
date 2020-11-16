@@ -55,9 +55,12 @@ namespace Xamply.Api
             .AddEntityFrameworkStores<XamplyDbContext>()
             .AddDefaultTokenProviders();
 
+            services.AddHttpClient();
+
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IDifficultiesService, DifficultiesService>();
+            services.AddTransient<IHttpClientAsync, HttpClientAsync>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

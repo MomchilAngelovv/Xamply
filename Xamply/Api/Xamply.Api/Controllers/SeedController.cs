@@ -63,14 +63,20 @@
             await this.userManager.CreateAsync(adminUser, Admin.Password);
             await this.userManager.AddToRoleAsync(adminUser, Xamply.Api.Services.Common.Roles.Admin);
 
-            var categoryNames = new List<string> { "History", "Politics", "Art", "Sports", "Geography", "Mythology" };
+            var categories = new Dictionary<string,string> 
+            { 
+                ["History"] = "23", 
+                ["Politics"] = "24",
+                ["Art"] = "25", 
+                ["Sports"] = "21" 
+            };
 
-            foreach (var category in categoryNames)
+            foreach (var category in categories)
             {
-                await this.categoriesService.CreateAsync(category);
+                await this.categoriesService.CreateAsync(category.Key, category.Value);
             }
 
-            var difficultyNames = new List<string> { "Eazy", "Medium", "Hard" };
+            var difficultyNames = new List<string> { "Easy", "Medium", "Hard" };
 
             foreach (var difficulty in difficultyNames)
             {

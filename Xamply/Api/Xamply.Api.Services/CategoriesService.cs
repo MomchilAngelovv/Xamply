@@ -1,5 +1,6 @@
 ﻿namespace Xamply.Api.Services
 {
+    using Microsoft.EntityFrameworkCore;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -15,11 +16,12 @@
             this.db = db;
         }
 
-        public async Task<Category> CreateAsync(string name)
+        public async Task<Category> CreateAsync(string name, string urlValue)
         {
             var category = new Category
             {
                 Name = name,
+                UrlValue = urlValue,
             };
 
             await this.db.Categories.AddAsync(category);
@@ -31,6 +33,11 @@
         public IQueryable<Category> GetAll()
         {
             return this.db.Categories;
+        }
+
+        public async Task<Category> GetByNameAsync(string name)
+        {
+            return await this.db.Categories.FirstOrDefaultAsync(category => category.Name == name);
         }
     }
 }

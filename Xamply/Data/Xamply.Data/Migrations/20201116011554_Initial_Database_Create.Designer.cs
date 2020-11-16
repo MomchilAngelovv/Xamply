@@ -10,7 +10,7 @@ using Xamply.Data;
 namespace Xamply.Data.Migrations
 {
     [DbContext(typeof(XamplyDbContext))]
-    [Migration("20201113214109_Initial_Database_Create")]
+    [Migration("20201116011554_Initial_Database_Create")]
     partial class Initial_Database_Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -149,6 +149,9 @@ namespace Xamply.Data.Migrations
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UrlValue")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -262,6 +265,9 @@ namespace Xamply.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CorrectAnswer")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -269,6 +275,9 @@ namespace Xamply.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("MetaData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedOn")

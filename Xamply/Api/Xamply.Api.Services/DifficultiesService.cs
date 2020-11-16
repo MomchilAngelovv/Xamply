@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,11 @@ namespace Xamply.Api.Services
             await this.db.SaveChangesAsync();
 
             return difficulty;
+        }
+
+        public async Task<Difficulty> GetByNameAsync(string name)
+        {
+            return await this.db.Difficulties.FirstOrDefaultAsync(difficulty => difficulty.Name == name);
         }
     }
 }

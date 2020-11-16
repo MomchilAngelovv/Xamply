@@ -20,7 +20,7 @@
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<object>> Post(UsersRegisterInputModel inputModel)
+        public async Task<ActionResult<object>> Register(UsersRegisterInputModel inputModel)
         {
             var user = await this.usersService.RegisterAsync(inputModel.Email, inputModel.Password);
 
@@ -35,7 +35,7 @@
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<object>> Post(UsersLoginInputModel inputModel)
+        public async Task<ActionResult<object>> Login(UsersLoginInputModel inputModel)
         {
             var user = await this.usersService.LoginAsync(inputModel.Email, inputModel.Password);
             if (user == null)

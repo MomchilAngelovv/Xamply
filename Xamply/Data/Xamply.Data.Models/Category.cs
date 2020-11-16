@@ -17,6 +17,7 @@
         [Required]
         [MaxLength(LengthConstraints.Short)]
         public string Name { get; set; }
+        public string UrlValue { get; set; }
 
         public virtual ICollection<Exam> Exams { get; set; }
 
