@@ -60,7 +60,7 @@ namespace Xamply.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     UrlValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -78,7 +78,7 @@ namespace Xamply.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -90,12 +90,11 @@ namespace Xamply.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Question",
+                name: "Questions",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CorrectAnswer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -103,7 +102,7 @@ namespace Xamply.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Question", x => x.Id);
+                    table.PrimaryKey("PK_Questions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -213,7 +212,7 @@ namespace Xamply.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exam",
+                name: "Exams",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -228,21 +227,21 @@ namespace Xamply.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exam", x => x.Id);
+                    table.PrimaryKey("PK_Exams", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Exam_AspNetUsers_UserId",
+                        name: "FK_Exams_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Exam_Categories_CategoryId",
+                        name: "FK_Exams_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Exam_Difficulties_DifficultyId",
+                        name: "FK_Exams_Difficulties_DifficultyId",
                         column: x => x.DifficultyId,
                         principalTable: "Difficulties",
                         principalColumn: "Id",
@@ -250,7 +249,31 @@ namespace Xamply.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExamQuestion",
+                name: "Answers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
+                    QuestionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    MetaData = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Answers_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExamsQuestions",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -263,20 +286,25 @@ namespace Xamply.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExamQuestion", x => x.Id);
+                    table.PrimaryKey("PK_ExamsQuestions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExamQuestion_Exam_ExamId",
+                        name: "FK_ExamsQuestions_Exams_ExamId",
                         column: x => x.ExamId,
-                        principalTable: "Exam",
+                        principalTable: "Exams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ExamQuestion_Question_QuestionId",
+                        name: "FK_ExamsQuestions_Questions_QuestionId",
                         column: x => x.QuestionId,
-                        principalTable: "Question",
+                        principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_QuestionId",
+                table: "Answers",
+                column: "QuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -318,33 +346,36 @@ namespace Xamply.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exam_CategoryId",
-                table: "Exam",
+                name: "IX_Exams_CategoryId",
+                table: "Exams",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exam_DifficultyId",
-                table: "Exam",
+                name: "IX_Exams_DifficultyId",
+                table: "Exams",
                 column: "DifficultyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exam_UserId",
-                table: "Exam",
+                name: "IX_Exams_UserId",
+                table: "Exams",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExamQuestion_ExamId",
-                table: "ExamQuestion",
+                name: "IX_ExamsQuestions_ExamId",
+                table: "ExamsQuestions",
                 column: "ExamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExamQuestion_QuestionId",
-                table: "ExamQuestion",
+                name: "IX_ExamsQuestions_QuestionId",
+                table: "ExamsQuestions",
                 column: "QuestionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Answers");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -361,16 +392,16 @@ namespace Xamply.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ExamQuestion");
+                name: "ExamsQuestions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Exam");
+                name: "Exams");
 
             migrationBuilder.DropTable(
-                name: "Question");
+                name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

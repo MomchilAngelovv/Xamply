@@ -1,35 +1,23 @@
 ﻿import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 class ExamQuestion extends React.Component {
   render() {
     return (
-      <footer className="page-footer grey darken-2">
-        <div className="container">
-          <div className="row">
-            <div className="col l6 s12">
-              <h5 className="white-text">Footer Content</h5>
-              <p className="grey-text text-lighten-4">© 2014 Copyright Text</p>
-            </div>
-            <div className="col l4 offset-l2 s12">
-              <h5 className="white-text">Links</h5>
-              <ul>
-                <Link to="/">Link 1</Link>
-                <Link to="/">Link 2</Link>
-                <Link to="/">Link 3</Link>
-                <Link to="/">Link 4</Link>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <ul class="collection with-header">
+        <li class="collection-header"><h4>First Names</h4></li>
+        <li class="collection-item"><div>Alvin<button class="secondary-content"><i class="material-icons">Choose</i></button></div></li>
+        <li class="collection-item"><div>Alvin<button class="secondary-content"><i class="material-icons">Choose</i></button></div></li>
+        <li class="collection-item"><div>Alvin<button class="secondary-content"><i class="material-icons">Choose</i></button></div></li>
+        <li class="collection-item"><div>Alvin<button class="secondary-content"><i class="material-icons">Choose</i></button></div></li>
+      </ul>
     );
   }
 }
 
 const mapState = (state, props) => {
   return {
+    exam: this.state.exam
   }
 }
 

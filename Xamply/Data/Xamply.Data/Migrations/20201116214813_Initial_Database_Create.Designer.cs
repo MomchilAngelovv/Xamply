@@ -10,7 +10,7 @@ using Xamply.Data;
 namespace Xamply.Data.Migrations
 {
     [DbContext(typeof(XamplyDbContext))]
-    [Migration("20201116011554_Initial_Database_Create")]
+    [Migration("20201116214813_Initial_Database_Create")]
     partial class Initial_Database_Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,6 +125,42 @@ namespace Xamply.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Xamply.Data.Models.Answer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MetaData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuestionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Answers");
+                });
+
             modelBuilder.Entity("Xamply.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -141,16 +177,16 @@ namespace Xamply.Data.Migrations
                     b.Property<string>("MetaData")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UrlValue")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -173,13 +209,13 @@ namespace Xamply.Data.Migrations
                     b.Property<string>("MetaData")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Value")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -223,7 +259,7 @@ namespace Xamply.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Exam");
+                    b.ToTable("Exams");
                 });
 
             modelBuilder.Entity("Xamply.Data.Models.ExamQuestion", b =>
@@ -257,16 +293,13 @@ namespace Xamply.Data.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("ExamQuestion");
+                    b.ToTable("ExamsQuestions");
                 });
 
             modelBuilder.Entity("Xamply.Data.Models.Question", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CorrectAnswer")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -277,15 +310,17 @@ namespace Xamply.Data.Migrations
                     b.Property<string>("MetaData")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Question");
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("Xamply.Data.Models.XamplyRole", b =>
@@ -455,6 +490,17 @@ namespace Xamply.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Xamply.Data.Models.Answer", b =>
+                {
+                    b.HasOne("Xamply.Data.Models.Question", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("Xamply.Data.Models.Exam", b =>
                 {
                     b.HasOne("Xamply.Data.Models.Category", "Category")
@@ -516,6 +562,8 @@ namespace Xamply.Data.Migrations
 
             modelBuilder.Entity("Xamply.Data.Models.Question", b =>
                 {
+                    b.Navigation("Answers");
+
                     b.Navigation("ExamsQuestions");
                 });
 

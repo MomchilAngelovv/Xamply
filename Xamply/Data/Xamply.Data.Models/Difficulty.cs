@@ -16,9 +16,9 @@
         public int Id { get; set; }
         [Required]
         [MaxLength(LengthConstraints.Short)]
-        public string Name { get; set; }
+        public string Value { get; set; }
 
-        public virtual ICollection<Exam> Exams { get; set; }
+        public virtual ICollection<Exam> Exams { get; set; } = new HashSet<Exam>();
 
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }

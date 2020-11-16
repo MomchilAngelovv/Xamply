@@ -13,6 +13,9 @@ namespace Xamply.Api
     using Microsoft.AspNetCore.Identity;
     using System;
     using Xamply.Api.Utilities;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Text;
 
     public class Startup
     {
@@ -55,12 +58,34 @@ namespace Xamply.Api
             .AddEntityFrameworkStores<XamplyDbContext>()
             .AddDefaultTokenProviders();
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = this.configuration["JwtConfiguration:Audience"],
+                    ValidIssuer = this.configuration["JwtConfiguration:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["JwtConfiguration:Secret"]))
+                };
+            });
+
             services.AddHttpClient();
 
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IDifficultiesService, DifficultiesService>();
             services.AddTransient<IHttpClientAsync, HttpClientAsync>();
+            services.AddTransient<IExamsService, ExamsService>();
+            services.AddTransient<IQuestionsService, QuestionsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -80,7 +105,10 @@ namespace Xamply.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseMiddleware<ParseAuthorizationToken>();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            //app.UseMiddleware<ParseAuthorizationToken>();
 
             app.UseEndpoints(endpoints =>
             {

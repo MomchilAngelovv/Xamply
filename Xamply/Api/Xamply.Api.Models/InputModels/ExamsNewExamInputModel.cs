@@ -1,14 +1,14 @@
-﻿namespace Xamply.Api.Models
+﻿namespace Xamply.Api.Models.InputModels
 {
     using System.ComponentModel.DataAnnotations;
 
     public class ExamsNewExamInputModel
     {
-        [Range(1,50)]
+        [Range(1, 50)]
         public int QuestionCount { get; set; }
         [Required]
-        public string CategoryName { get; set; }
+        public string CategoryValue { get; set; }
         [Required]
-        public string DifficultyName { get; set; }
+        public string DifficultyValue { get; set; }
     }
 }

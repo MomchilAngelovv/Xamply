@@ -3,8 +3,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-
-    using Xamply.Api.Models;
+    using Xamply.Api.Models.InputModels;
     using Xamply.Api.Services;
 
     [ApiController]

@@ -2,6 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using Xamply.Data.Models.Common;
 
     public class Question : IEntityMetaData
     {
@@ -12,10 +15,12 @@
         }
         
         public string Id { get; set; }
-        public string Text { get; set; }
-        public string CorrectAnswer { get; set; }
+        [Required]
+        [MaxLength(LengthConstraints.Long)]
+        public string Value { get; set; }
 
-        public virtual ICollection<ExamQuestion> ExamsQuestions { get; set; }
+        public virtual ICollection<ExamQuestion> ExamsQuestions { get; set; } = new HashSet<ExamQuestion>();
+        public virtual ICollection<Answer> Answers { get; set; } = new HashSet<Answer>();
 
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }

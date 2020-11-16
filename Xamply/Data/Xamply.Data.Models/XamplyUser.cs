@@ -13,7 +13,7 @@
             this.CreatedOn = DateTime.UtcNow;
         }
 
-        public virtual ICollection<Exam> Exams { get; set; }
+        public virtual ICollection<Exam> Exams { get; set; } =  new HashSet<Exam>();
 
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }

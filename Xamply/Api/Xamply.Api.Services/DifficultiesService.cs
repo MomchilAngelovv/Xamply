@@ -20,7 +20,7 @@ namespace Xamply.Api.Services
         {
             var difficulty = new Difficulty
             {
-                Name = name,
+                Value = name,
             };
 
             await this.db.Difficulties.AddAsync(difficulty);
@@ -29,9 +29,9 @@ namespace Xamply.Api.Services
             return difficulty;
         }
 
-        public async Task<Difficulty> GetByNameAsync(string name)
+        public async Task<Difficulty> GetByValueAsync(string value)
         {
-            return await this.db.Difficulties.FirstOrDefaultAsync(difficulty => difficulty.Name == name);
+            return await this.db.Difficulties.FirstOrDefaultAsync(difficulty => difficulty.Value == value);
         }
     }
 }

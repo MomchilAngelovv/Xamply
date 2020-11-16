@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux'
 import { categoriesActions } from '../actions/CategoriesActions'
+import { examsActions } from '../actions/ExamsActions'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class Dashboard extends React.Component {
           <div key={category.id} className="col s6">
             <div className="card blue-grey darken-1">
               <div className="card-content white-text">
-                <span className="card-title">{category.name}</span>
+                <span className="card-title">{category.value}</span>
                 <p>
                   <label>
                     <input name="difficulty" type="radio" className="with-gap" value="Easy" />
@@ -55,7 +56,7 @@ class Dashboard extends React.Component {
                 </p>
               </div>
               <div className="card-action">
-                <button onClick={(event) => this.startExam(event)} categoryname={category.name}>Start test</button>
+                <button onClick={(event) => this.startExam(event)} categoryname={category.value}>Start test</button>
                 <button>Pin this category for later</button>
               </div>
             </div>
@@ -67,14 +68,15 @@ class Dashboard extends React.Component {
   startExam = async (event) => {
     let data = {
       questionCount: Number(this.state.questionCount),
-      difficultyName: document.querySelector("input[name=difficulty]:checked").value,
-      categoryName: event.target.getAttribute("categoryname"),
+      difficultyValue: document.querySelector("input[name=difficulty]:checked").value,
+      categoryValue: event.target.getAttribute("categoryname"),
     }
 
     const response = await fetch("https://localhost:44312/exams", {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.props.currentUser?.accessToken}`
       },
       body: JSON.stringify(data)
     });
@@ -84,6 +86,7 @@ class Dashboard extends React.Component {
     }
 
     const responseData = await response.json();
+    this.props.newExam()
     console.log(responseData)
   }
 
@@ -97,13 +100,15 @@ class Dashboard extends React.Component {
 
 const mapState = (state, props) => {
   return {
+    currentUser: state.currentUser,
     categories: state.categories
   }
 }
 
 const mapDispatch = (dispatch) => {
   return {
-    fetchCategories: (categories) => dispatch(categoriesActions.fetchCategories(categories))
+    fetchCategories: (categories) => dispatch(categoriesActions.fetchCategories(categories)),
+    newExam: (exam) => dispatch(examsActions.newExam(exam))
   }
 }
 

@@ -7,8 +7,8 @@
 
     public interface ICategoriesService
     {
-        Task<Category> CreateAsync(string name, string urlValue);
-        Task<Category> GetByNameAsync(string name);
+        Task<Category> CreateAsync(string value, string urlValue);
+        Task<Category> GetByValueAsync(string value);
         IQueryable<Category> GetAll();
     }
 }

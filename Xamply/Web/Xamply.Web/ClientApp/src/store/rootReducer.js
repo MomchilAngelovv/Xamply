@@ -1,6 +1,7 @@
 ﻿let initialState = {
   currentUser: null,
-  categories: []
+  categories: [],
+  exam: {}
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -11,6 +12,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, currentUser: null }
     case "FETCH_CATEGORIES":
       return { ...state, categories: action.payload }
+    case "NEW_EXA<":
+      return { ...state, exam: action.payload }
     default:
       return state;
   }

@@ -22,7 +22,7 @@ namespace Xamply.Api.Controllers
                 .Select(category => new
                 {
                     category.Id,
-                    category.Name
+                    category.Value
                 })
                 .ToList();
 

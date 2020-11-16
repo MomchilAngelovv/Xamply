@@ -23,7 +23,7 @@
         public virtual Category Category { get; set; }
         public virtual Difficulty Difficulty { get; set; }
 
-        public virtual ICollection<ExamQuestion> ExamsQuestions { get; set; }
+        public virtual ICollection<ExamQuestion> ExamsQuestions { get; set; } = new HashSet<ExamQuestion>();
 
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }

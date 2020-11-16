@@ -26,56 +26,54 @@ namespace Xamply.Api.Services
             this.userManager = userManager;
         }
 
-
         public async Task<XamplyUser> LoginAsync(string email, string password)
         {
-            var user = await this.userManager.FindByEmailAsync(email);
-            if (user == null)
-            {
-                return null;
-            }
-
-            var hashedPassword = this.userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
-            if (hashedPassword != PasswordVerificationResult.Success)
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null || !await userManager.CheckPasswordAsync(user, password))
             {
                 return null;
             }
 
             var role = (await this.userManager.GetRolesAsync(user)).Single();
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var authClaims = new List<Claim>
             {
-                Audience = this.configuration["JwtConfiguration:Audience"],
-                Issuer = this.configuration["JwtConfiguration:Issuer"],
-                Subject = new ClaimsIdentity(new[]
-                {
-                     new Claim(ClaimTypes.NameIdentifier, user.Id),
-                     new Claim(ClaimTypes.Email, user.Email),
-                     new Claim(ClaimTypes.Role, role),
-                }),
-                Expires = DateTime.UtcNow.AddDays(14),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.configuration["JwtConfiguration:Secret"])), SecurityAlgorithms.HmacSha256Signature)
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, role),
             };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var secutiryToken = tokenHandler.CreateToken(tokenDescriptor);
-            var token = tokenHandler.WriteToken(secutiryToken);
-            user.MetaData = token;
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["JwtConfiguration:Secret"]));
 
+            var token = new JwtSecurityToken
+            (
+                issuer: this.configuration["JwtConfiguration:Issuer"],
+                audience: this.configuration["JwtConfiguration:Audience"],
+                expires: DateTime.Now.AddDays(14),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            );
+
+            user.MetaData = new JwtSecurityTokenHandler().WriteToken(token);
             return user;
         }
 
         public async Task<XamplyUser> RegisterAsync(string email, string password)
         {
-            var user = new XamplyUser
+            var userExists = await this.userManager.FindByEmailAsync(email);
+            if (userExists != null)
+            {
+                throw new ArgumentException(Errors.UserAlreadyExists);
+            }
+
+            var user = new XamplyUser()
             {
                 Email = email,
-                UserName = email,
+                UserName = email
             };
 
-            var result = await this.userManager.CreateAsync(user, password);
-
-            if (result.Succeeded == false)
+            var userCreateResult = await this.userManager.CreateAsync(user, password);
+            if (!userCreateResult.Succeeded)
             {
                 throw new ArgumentException(Errors.UsersRegisterFailed);
             }

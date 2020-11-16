@@ -12,7 +12,11 @@
 
         }
 
+        public DbSet<Answer> Answers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Difficulty> Difficulties { get; set; }
+        public DbSet<Exam> Exams { get; set; }
+        public DbSet<ExamQuestion> ExamsQuestions { get; set; }
+        public DbSet<Question> Questions { get; set; }
     }
 }

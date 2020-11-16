@@ -6,7 +6,7 @@
 
     public interface IDifficultiesService
     {
-        Task<Difficulty> CreateAsync(string name);
-        Task<Difficulty> GetByNameAsync(string name);
+        Task<Difficulty> CreateAsync(string value);
+        Task<Difficulty> GetByValueAsync(string value);
     }
 }

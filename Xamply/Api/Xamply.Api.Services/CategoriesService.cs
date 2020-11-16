@@ -20,7 +20,7 @@
         {
             var category = new Category
             {
-                Name = name,
+                Value = name,
                 UrlValue = urlValue,
             };
 
@@ -35,9 +35,9 @@
             return this.db.Categories;
         }
 
-        public async Task<Category> GetByNameAsync(string name)
+        public async Task<Category> GetByValueAsync(string value)
         {
-            return await this.db.Categories.FirstOrDefaultAsync(category => category.Name == name);
+            return await this.db.Categories.FirstOrDefaultAsync(category => category.Value == value);
         }
     }
 }
