@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux'
 
-class ExamQuestion extends React.Component {
+class Exam extends React.Component {
   render() {
     return (
       <ul class="collection with-header">
@@ -26,4 +26,4 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(ExamQuestion)
+export default connect(mapState, mapDispatch)(Exam)

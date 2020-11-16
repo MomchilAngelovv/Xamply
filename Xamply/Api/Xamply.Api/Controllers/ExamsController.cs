@@ -50,7 +50,7 @@ namespace Xamply.Api.Controllers
                 return this.NotFound(inputModel.DifficultyValue);
             }
 
-            var examUrl = $"https://opentdb.com/api.php?amount={inputModel.QuestionCount}&category={category.UrlValue}&difficulty={difficulty.Value.ToLower()}";
+            var examUrl = $"https://opentdb.com/api.php?type=multiple&amount={inputModel.QuestionCount}&category={category.UrlValue}&difficulty={difficulty.Value.ToLower()}";
             var data = await this.httpClient.GetAsync<ExamApi>(examUrl);
 
             var exam = await this.examsService.CreateAsync(data.Results, category.Id, difficulty.Id, this.User.FindFirstValue(ClaimTypes.NameIdentifier));

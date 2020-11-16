@@ -37,10 +37,11 @@ namespace Xamply.Api.Services
 
             var questionList = questionsApi.Select(q => q.Question).ToList();
             var searchQuestions = await this.questionsService.GetQuestionListByValues(questionList);
+            var searchedQuestionValues = searchQuestions.Select(sq => sq.Value).ToList();
 
             foreach (var questionApi in questionsApi)
             {
-                if (questionList.Contains(questionApi.Question))
+                if (searchedQuestionValues.Contains(questionApi.Question))
                 {
                     exam.ExamsQuestions.Add(new ExamQuestion
                     {
@@ -77,7 +78,6 @@ namespace Xamply.Api.Services
                     });
                 }
             }
-
 
             await this.db.Exams.AddAsync(exam);
             await this.db.SaveChangesAsync();

@@ -66,6 +66,11 @@ class Dashboard extends React.Component {
   }
 
   startExam = async (event) => {
+    if (this.props.currentUser == null) {
+      this.props.history.push('/login')
+      return;
+    }
+
     let data = {
       questionCount: Number(this.state.questionCount),
       difficultyValue: document.querySelector("input[name=difficulty]:checked").value,
@@ -80,14 +85,16 @@ class Dashboard extends React.Component {
       },
       body: JSON.stringify(data)
     });
+    console.log(response)
 
     if (response.status !== 200) {
       return;
     }
 
     const responseData = await response.json();
-    this.props.newExam()
     console.log(responseData)
+    this.props.newExam(responseData.exam)
+    this.props.history.push('/exam')
   }
 
   async componentDidMount() {

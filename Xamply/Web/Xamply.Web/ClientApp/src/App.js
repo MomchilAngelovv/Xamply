@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard'
 import Login from './components/Login'
 import Register from './components/Register'
 import Profile from './components/Profile'
+import Exam from './components/Exam'
 
 export default class App extends React.Component {
   render() {
@@ -14,6 +15,7 @@ export default class App extends React.Component {
         <Route exact path='/profile' component={Profile} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
+        <Route exact path='/exam' component={Exam} />
       </Layout>
     );
   }
