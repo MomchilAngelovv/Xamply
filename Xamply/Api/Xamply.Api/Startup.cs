@@ -108,7 +108,6 @@ namespace Xamply.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
-            //app.UseMiddleware<ParseAuthorizationToken>();
 
             app.UseEndpoints(endpoints =>
             {
