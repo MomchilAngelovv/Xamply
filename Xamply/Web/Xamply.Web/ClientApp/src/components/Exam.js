@@ -1,23 +1,30 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux'
+import Question from './Question'
 
 class Exam extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      currentQuestionIndex: 0
+    }
+  }
+
   render() {
     return (
-      <ul class="collection with-header">
-        <li class="collection-header"><h4>First Names</h4></li>
-        <li class="collection-item"><div>Alvin<button class="secondary-content"><i class="material-icons">Choose</i></button></div></li>
-        <li class="collection-item"><div>Alvin<button class="secondary-content"><i class="material-icons">Choose</i></button></div></li>
-        <li class="collection-item"><div>Alvin<button class="secondary-content"><i class="material-icons">Choose</i></button></div></li>
-        <li class="collection-item"><div>Alvin<button class="secondary-content"><i class="material-icons">Choose</i></button></div></li>
-      </ul>
+      <Question question={this.getNextQuestion()}/>
     );
+  }
+
+  getNextQuestion = () => {
+    return this.props.exam.questions[this.state.currentQuestionIndex++];
   }
 }
 
 const mapState = (state, props) => {
   return {
-    exam: this.state.exam
+    exam: state.exam
   }
 }
 

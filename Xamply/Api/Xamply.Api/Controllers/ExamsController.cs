@@ -57,9 +57,28 @@ namespace Xamply.Api.Controllers
 
             var respone = new
             {
-                Started = DateTime.Now,
-                Questions = 1,
-                Data = exam
+                Exam = new
+                {
+                    exam.Id,
+                    exam.UserId,
+                    Difficulty = exam.Difficulty.Value,
+                    Category = exam.Category.Value,
+                    Started = exam.CreatedOn,
+                    exam.QuestionCount,
+                    Questions = exam.ExamsQuestions
+                        .Select(eq => eq.Question)
+                        .Select(q => new
+                        {
+                            q.Value,
+                            Answers = q.Answers.Select(a => new
+                            {
+                                a.Value,
+                                a.IsCorrect
+                            })
+                            .ToList()
+                        })
+                        .ToList()
+                }
             };
 
             return respone;
