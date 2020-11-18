@@ -9,7 +9,7 @@ class Question extends React.Component {
         <li className="collection-header"><h4>{value}</h4></li>
         {answers.map(answer => {
           return (
-            <li key={answer.value} className="collection-item"><div>{answer.value}<button className="secondary-content"><i className="material-icons">Choose</i></button></div></li>)
+            <li key={answer.value} className="collection-item"><div>{answer.value}<button onClick={(event) => this.props.onQuestionAnswer(event)} className="secondary-content"><i className="material-icons">Choose</i></button></div></li>)
         })}
       </ul>
     );

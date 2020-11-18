@@ -13,12 +13,19 @@ class Exam extends React.Component {
 
   render() {
     return (
-      <Question question={this.getNextQuestion()}/>
+      <Question onQuestionAnswer={() => this.moveToNextQuestion()} question={this.getQuestion()} />
     );
   }
+  moveToNextQuestion = () => {
+    if (this.props.exam.questions.length == this.state.currentQuestionIndex + 1) {
+      this.props.history.push("/")
+      return;
+    }
+    this.setState({ currentQuestionIndex: this.state.currentQuestionIndex + 1})
+  }
 
-  getNextQuestion = () => {
-    return this.props.exam.questions[this.state.currentQuestionIndex++];
+  getQuestion = () => {
+    return this.props.exam.questions[this.state.currentQuestionIndex];
   }
 }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Xamply.Api.Utilities
 {
@@ -19,7 +20,7 @@ namespace Xamply.Api.Utilities
         public async Task<T> GetAsync<T>(string url)
         {
             var response = await httpClient.GetAsync(url);
-            var data = await response.Content.ReadAsStringAsync();
+            var data = HttpUtility.HtmlDecode(await response.Content.ReadAsStringAsync());
 
             var options = new JsonSerializerOptions
             {

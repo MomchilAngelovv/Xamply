@@ -16,7 +16,9 @@ const rootReducer = (state = initialState, action) => {
     case "NEW_EXAM":
       return { ...state, exam: action.payload }
     case "ADD_USER_ANSWER":
-      return { ...state, examAnswers: examAnswers.push(action.payload) }
+      let cloneExamAnswers = [...state.examAnswers]
+      cloneExamAnswers.push(action.payload)
+      return { ...state, examAnswers: cloneExamAnswers }
     default:
       return state;
   }
