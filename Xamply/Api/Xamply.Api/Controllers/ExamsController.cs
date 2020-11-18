@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using Xamply.Api.Models.ExternalApiResponses;
 using Xamply.Api.Models.InputModels;
 using Xamply.Api.Services;
@@ -34,6 +36,20 @@ namespace Xamply.Api.Controllers
             this.examsService = examsService;
         }
 
+        [Authorize]
+        public ActionResult<object> MyExams()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myExams = this.examsService.GetMyExams(userId);
+
+            var response = new
+            {
+                MyExams = myExams
+            };
+
+            return response;
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<object>> NewExam(ExamsNewExamInputModel inputModel)
@@ -52,6 +68,11 @@ namespace Xamply.Api.Controllers
 
             var examUrl = $"https://opentdb.com/api.php?type=multiple&amount={inputModel.QuestionCount}&category={category.UrlValue}&difficulty={difficulty.Value.ToLower()}";
             var data = await this.httpClient.GetAsync<ExamApi>(examUrl);
+
+            for (int i = 0; i < data.Results.Count; i++)
+            {
+                data.Results[i].Question = HttpUtility.HtmlDecode(data.Results[i].Question);
+            }
 
             var exam = await this.examsService.CreateAsync(data.Results, category.Id, difficulty.Id, this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 

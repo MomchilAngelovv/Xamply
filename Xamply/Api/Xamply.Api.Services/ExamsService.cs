@@ -84,5 +84,19 @@ namespace Xamply.Api.Services
 
             return exam;
         }
+
+        public IEnumerable<object> GetMyExams(string userId)
+        {
+            return this.db.Exams
+                .Where(exam => exam.UserId == userId)
+                .Select(exam => new
+                {
+                    exam.Id,
+                    Category = exam.Category.Value,
+                    Difficulty = exam.Difficulty.Value,
+                    exam.QuestionCount
+                })
+                .ToList();
+        }
     }
 }

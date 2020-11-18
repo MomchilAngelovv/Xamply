@@ -20,7 +20,7 @@ namespace Xamply.Api.Utilities
         public async Task<T> GetAsync<T>(string url)
         {
             var response = await httpClient.GetAsync(url);
-            var data = HttpUtility.HtmlDecode(await response.Content.ReadAsStringAsync());
+            var data = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
             {

@@ -17,7 +17,7 @@ class Exam extends React.Component {
     );
   }
   moveToNextQuestion = () => {
-    if (this.props.exam.questions.length == this.state.currentQuestionIndex + 1) {
+    if (this.props.exam.questions.length === this.state.currentQuestionIndex + 1) {
       this.props.history.push("/")
       return;
     }
