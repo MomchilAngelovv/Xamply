@@ -24,6 +24,7 @@ class Dashboard extends React.Component {
   async componentDidMount() {
     if (this.props.currentUser === null) {
       this.props.history.push('/login')
+      return;
     }
 
     const responseData = await (await fetch('https://localhost:44312/categories')).json()
