@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import { rootReducer } from './store/rootReducer'
+import { rootReducer } from './store/RootReducer'
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');

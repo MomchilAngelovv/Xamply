@@ -36,6 +36,7 @@
         [HttpPost("login")]
         public async Task<ActionResult<object>> Login(UsersLoginInputModel inputModel)
         {
+            var user1 = this.User;
             var user = await this.usersService.LoginAsync(inputModel.Email, inputModel.Password);
             if (user == null)
             {

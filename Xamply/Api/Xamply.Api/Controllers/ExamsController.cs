@@ -76,33 +76,45 @@ namespace Xamply.Api.Controllers
 
             var exam = await this.examsService.CreateAsync(data.Results, category.Id, difficulty.Id, this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            var respone = new
+            var response = new
             {
-                Exam = new
+                ExamId = exam.Id
+            };
+
+            return response;
+        }
+
+        [Authorize]
+        [HttpPost("resultsCheck")]
+        public ActionResult<object> ResultsCheck(ExamsResultsCheckInputModel inputModel)
+        {
+            var currectAnswers = this.examsService.ResultsCheckAsync(inputModel.Answers);
+
+            var response = new
+            {
+                TotalQuestions = inputModel.Answers.Count(),
+                CorrectAnswers = currectAnswers
+            };
+
+            return response;
+        }
+
+        [Authorize]
+        [HttpPost("{id}")]
+        public ActionResult<object> ById(string id)
+        {
+            var exam = this.examsService.GetById(id);
+
+            var response = new
+            {
+                Exam = new 
                 {
                     exam.Id,
-                    exam.UserId,
-                    Difficulty = exam.Difficulty.Value,
-                    Category = exam.Category.Value,
-                    Started = exam.CreatedOn,
-                    exam.QuestionCount,
-                    Questions = exam.ExamsQuestions
-                        .Select(eq => eq.Question)
-                        .Select(q => new
-                        {
-                            q.Value,
-                            Answers = q.Answers.Select(a => new
-                            {
-                                a.Value,
-                                a.IsCorrect
-                            })
-                            .ToList()
-                        })
-                        .ToList()
+                    exam.QuestionCount
                 }
             };
 
-            return respone;
+            return response;
         }
     }
 }

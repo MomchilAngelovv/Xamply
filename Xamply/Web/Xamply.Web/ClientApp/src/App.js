@@ -6,6 +6,7 @@ import Login from './components/Login'
 import Register from './components/Register'
 import Profile from './components/Profile'
 import Exam from './components/Exam'
+import ExamFinish from './components/ExamFinish'
 
 export default class App extends React.Component {
   render() {
@@ -16,7 +17,8 @@ export default class App extends React.Component {
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/exam' component={Exam} />
+        <Route exact path='/examfinish' component={ExamFinish} />
       </Layout>
-    );
+    );  
   }
 }

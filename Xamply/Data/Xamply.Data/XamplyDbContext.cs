@@ -18,5 +18,6 @@
         public DbSet<Exam> Exams { get; set; }
         public DbSet<ExamQuestion> ExamsQuestions { get; set; }
         public DbSet<Question> Questions { get; set; }
+        public DbSet<Result> Results { get; set; }
     }
 }

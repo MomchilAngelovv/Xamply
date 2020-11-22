@@ -2,6 +2,7 @@
 import { connect } from 'react-redux'
 import Question from './Question'
 
+
 class Exam extends React.Component {
   constructor(props) {
     super(props)
@@ -13,15 +14,36 @@ class Exam extends React.Component {
 
   render() {
     return (
-      <Question onQuestionAnswer={() => this.moveToNextQuestion()} question={this.getQuestion()} />
+      <Question onQuestionAnswer={(event, questionId, answerText) => this.moveToNextQuestion(questionId, answerText)} question={this.getQuestion()} />
     );
   }
-  moveToNextQuestion = () => {
+
+  componentDidMount() {
+
+  }
+
+  moveToNextQuestion = (questionId, answerText) => {
+    this.props.addExamAnswer(questionId, answerText);
+
     if (this.props.exam.questions.length === this.state.currentQuestionIndex + 1) {
-      this.props.history.push("/")
+      const data = {
+        answers: this.props.examAnswers
+      }
+
+      fetch("https://localhost:44312/exams/resultsCheck", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.props.currentUser.accessToken}`
+        },
+        body: JSON.stringify(data)
+      })
+
+      this.props.history.push("/examfinish");
       return;
     }
-    this.setState({ currentQuestionIndex: this.state.currentQuestionIndex + 1})
+
+    this.setState({ currentQuestionIndex: this.state.currentQuestionIndex + 1 })
   }
 
   getQuestion = () => {
@@ -31,7 +53,7 @@ class Exam extends React.Component {
 
 const mapState = (state, props) => {
   return {
-    exam: state.exam
+    currentUser: state.currentUser,
   }
 }
 

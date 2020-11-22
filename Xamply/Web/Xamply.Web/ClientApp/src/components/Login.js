@@ -9,7 +9,6 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
-      loginFailed: false
     }
   }
 
@@ -17,15 +16,14 @@ class Login extends React.Component {
     return (
       <React.Fragment>
         <h3 className="center-align">Enter email and password:</h3>
-        {this.renderLoginFailed()}
         <div className="row">
-          <form className="col s12" onSubmit={(event) => this.login(event)}>
+          <form className="col s12" onSubmit={(e) => this.handleLogin(e)}>
             <div className="row">
               <div className="input-field col s6">
-                <input onChange={(event) => this.loginFormChange(event)} id="email" name="email" type="text" placeholder="Email:" className="validate" />
+                <input onChange={(e) => this.handleInputChange(e)} id="email" name="email" type="text" placeholder="Email:" className="validate" />
               </div>
               <div className="input-field col s6">
-                <input onChange={(event) => this.loginFormChange(event)} name="password" type="password" placeholder="Password:" className="validate" />
+                <input onChange={(e) => this.handleInputChange(e)} name="password" type="password" placeholder="Password:" className="validate" />
               </div>
             </div>
             <div className="row">
@@ -40,18 +38,18 @@ class Login extends React.Component {
     );
   }
 
-  renderLoginFailed = () => {
-    if (this.state.loginFailed === true) {
-      return <div>Login failed. Please enter correct username and password.</div>
+  componentDidUpdate() {
+    if (this.props.currentUser === null) {
+      this.props.history.push('/login')
     }
   }
 
-  loginFormChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value })
+  handleInputChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
   }
 
-  login = async (event) => {
-    event.preventDefault();
+  handleLogin = async (e) => {
+    e.preventDefault();
 
     let data = {
       email: this.state.email,
@@ -67,7 +65,6 @@ class Login extends React.Component {
     });
 
     if (response.status !== 200) {
-      this.setState({ loginFailed: true })
       return;
     }
 
@@ -79,6 +76,7 @@ class Login extends React.Component {
 
 const mapState = (state, props) => {
   return {
+
   }
 }
 
