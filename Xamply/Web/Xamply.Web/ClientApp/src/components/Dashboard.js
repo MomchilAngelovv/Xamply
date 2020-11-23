@@ -6,7 +6,7 @@ class Dashboard extends React.Component {
     super(props)
 
     this.state = {
-      questionCount: 0,
+      questionCount: 1,
       categories: []
     }
   }
@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
     return (
       <React.Fragment>
         <h1 className="center-align">Choose category:</h1>
-        <input onChange={(e) => this.handleInputChange(e)} name="questionCount" type="number" placeholder="Enter question numbers:" className="validate" />
+        <input onChange={(e) => this.handleInputChange(e)} value={this.state.questionCount} name="questionCount" type="number" placeholder="Enter question numbers:" className="validate" />
         {this.renderCategories()}
       </React.Fragment>
     );
