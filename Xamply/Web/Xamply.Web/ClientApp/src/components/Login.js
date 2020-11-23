@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux'
 import { usersActions } from '../actions/UsersActions'
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 class Login extends React.Component {
   constructor(props) {
@@ -15,25 +16,21 @@ class Login extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h3 className="center-align">Enter email and password:</h3>
-        <div className="row">
-          <form className="col s12" onSubmit={(e) => this.handleLogin(e)}>
-            <div className="row">
-              <div className="input-field col s6">
-                <input onChange={(e) => this.handleInputChange(e)} id="email" name="email" type="text" placeholder="Email:" className="validate" />
-              </div>
-              <div className="input-field col s6">
-                <input onChange={(e) => this.handleInputChange(e)} name="password" type="password" placeholder="Password:" className="validate" />
-              </div>
-            </div>
-            <div className="row">
-              <div className="input-field col s12">
-                <button type="submit" className="btn waves-effect waves-light">Login<i className="material-icons right">send</i></button>
-              </div>
-            </div>
-          </form>
+        <h2 className="text-center">Login:</h2>
+        <div className="row justify-content-center">
+          <Form className="col-md-4 col-sm-12" onSubmit={(e) => this.handleLogin(e)}>
+            <FormGroup>
+              <Label for="exampleEmail">Email</Label>
+              <Input onChange={(e) => this.handleInputChange(e)} type="email" name="email" id="exampleEmail" placeholder="Email:" />
+            </FormGroup>
+            <FormGroup>
+              <Label for="examplePassword">Password</Label>
+              <Input onChange={(e) => this.handleInputChange(e)} type="password" name="password" id="examplePassword" placeholder="Password:" />
+            </FormGroup>
+            <Button>Login</Button>
+          </Form>
         </div>
-       
+        <hr />
       </React.Fragment>
     );
   }

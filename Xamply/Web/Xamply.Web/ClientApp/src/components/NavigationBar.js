@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 import { usersActions } from '../actions/UsersActions'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, NavbarText, Button } from 'reactstrap';
 
+const navigationBarStyle = {
+  backgroundColor: "#8EDBCC",
+}
+
 class NavigationBar extends React.Component {
   constructor(props) {
     super(props)
@@ -16,18 +20,14 @@ class NavigationBar extends React.Component {
   render() {
     return (
       <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">Xamply</NavbarBrand>
+        <Navbar style={navigationBarStyle} light expand="md" className="sticky-top">
+          <NavbarBrand to="/" tag={Link}>Xamply</NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="mr-auto" navbar>
               <NavItem>
-                <NavLink href="/">Components</NavLink>
+                <NavLink href="https://github.com/reactstrap/reactstrap">Reactstrap GitHub</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
-              </NavItem>
-
             </Nav>
             {this.userButtons()}
           </Collapse>
