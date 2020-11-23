@@ -81,7 +81,7 @@ class Dashboard extends React.Component {
   }
 
   startExam = async (e, categoryValue) => {
-    if (this.props.currentUser == null) {
+    if (this.props.currentUser === null) {
       this.props.history.push('/login')
       return;
     }
@@ -96,7 +96,7 @@ class Dashboard extends React.Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.props.currentUser?.accessToken}`
+        'Authorization': `Bearer ${this.props.currentUser.accessToken}`
       },
       body: JSON.stringify(data)
     });
@@ -106,7 +106,7 @@ class Dashboard extends React.Component {
     }
 
     const responseData = await response.json();
-    this.props.history.push(`/exam/${responseData.examId}`)
+    this.props.history.push(`/exam/${responseData.data.examId}`)
   }
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink as ReactLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { usersActions } from '../actions/UsersActions'
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, NavbarText, Button } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
 
 const navigationBarStyle = {
   backgroundColor: "#8EDBCC",

@@ -81,6 +81,7 @@ namespace Xamply.Api.Services
             return this.db.Exams
                 .Include(e => e.ExamsQuestions)
                     .ThenInclude(e => e.Question)
+                        .ThenInclude(q => q.Answers)
                 .FirstOrDefault(e => e.Id == id);
         }
 

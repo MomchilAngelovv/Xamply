@@ -6,9 +6,7 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import { rootReducer } from './store/RootReducer'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import $ from 'jquery';
-import Popper from 'popper.js';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');

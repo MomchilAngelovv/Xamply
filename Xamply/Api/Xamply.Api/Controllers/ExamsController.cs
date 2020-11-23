@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using Xamply.Api.Common;
 using Xamply.Api.Models.ExternalApiResponses;
 using Xamply.Api.Models.InputModels;
 using Xamply.Api.Services;
@@ -52,7 +53,7 @@ namespace Xamply.Api.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<object>> NewExam(ExamsNewExamInputModel inputModel)
+        public async Task<ActionResult<BaseResponseModel>> NewExam(ExamsNewExamInputModel inputModel)
         {
             var category = await this.categoriesService.GetByValueAsync(inputModel.CategoryValue);
             if (category == null)
@@ -76,17 +77,22 @@ namespace Xamply.Api.Controllers
 
             var exam = await this.examsService.CreateAsync(data.Results, category.Id, difficulty.Id, this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            var response = new
+            var response = new BaseResponseModel
             {
-                ExamId = exam.Id
+                Message = "",
+                Status = ResponseStatuses.Success,
+                Data = new
+                {
+                    ExamId = exam.Id
+                }
             };
 
             return response;
         }
 
         [Authorize]
-        [HttpPost("resultsCheck")]
-        public ActionResult<object> ResultsCheck(ExamsResultsCheckInputModel inputModel)
+        [HttpPost("{id}/finish")]
+        public ActionResult<object> Finish(ExamsResultsCheckInputModel inputModel)
         {
             var currectAnswers = this.examsService.ResultsCheckAsync(inputModel.Answers);
 
@@ -100,17 +106,32 @@ namespace Xamply.Api.Controllers
         }
 
         [Authorize]
-        [HttpPost("{id}")]
-        public ActionResult<object> ById(string id)
+        [HttpGet("{id}")]
+        public ActionResult<BaseResponseModel> GetById(string id)
         {
             var exam = this.examsService.GetById(id);
 
-            var response = new
+            var response = new BaseResponseModel
             {
-                Exam = new 
+                Message = "TODO",
+                Status = ResponseStatuses.Success,
+                Data = new 
                 {
                     exam.Id,
-                    exam.QuestionCount
+                    exam.QuestionCount,
+                    Questions = exam.ExamsQuestions
+                        .Select(eq => eq.Question)
+                        .Select(q => new 
+                        { 
+                            q.Id,
+                            q.Value,
+                            Answers = q.Answers.Select(a => new 
+                            { 
+                                a.Value,
+                            })
+                            .ToList()
+                        })
+                        .ToList(),
                 }
             };
 

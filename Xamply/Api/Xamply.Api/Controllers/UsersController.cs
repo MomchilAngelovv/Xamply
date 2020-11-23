@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using Xamply.Api.Common;
     using Xamply.Api.Models.InputModels;
     using Xamply.Api.Services;
 
@@ -34,18 +35,19 @@
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<object>> Login(UsersLoginInputModel inputModel)
+        public async Task<ActionResult<BaseResponseModel>> Login(UsersLoginInputModel inputModel)
         {
-            var user1 = this.User;
             var user = await this.usersService.LoginAsync(inputModel.Email, inputModel.Password);
             if (user == null)
             {
                 return this.Unauthorized();
             }
 
-            var response = new
+            var response = new BaseResponseModel
             {
-                CurrentUser = new
+                Message = ResponseMessages.LoginSuccess,
+                Status = ResponseStatuses.Success,
+                Data = new
                 {
                     user.Id,
                     user.Email,

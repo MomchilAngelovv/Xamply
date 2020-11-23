@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 class Register extends React.Component {
   constructor(props) {
@@ -10,6 +10,8 @@ class Register extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
+      registerResult: '',
+      modalToggle: false
     }
   }
 
@@ -21,28 +23,36 @@ class Register extends React.Component {
           <Form className="col-md-4 col-sm-12" onSubmit={(e) => this.handleRegister(e)}>
             <FormGroup>
               <Label for="email">Email</Label>
-              <Input onChange={(e) => this.handleInputChange(e)} type="email" name="email" id="email" placeholder="Email:" />
+              <Input onChange={(e) => this.handleInputChange(e)} value={this.state.email} type="email" name="email" id="email" placeholder="Email:" />
             </FormGroup>
             <FormGroup>
               <Label for="password">Password</Label>
-              <Input onChange={(e) => this.handleInputChange(e)} type="password" name="password" id="password" placeholder="Password:" />
+              <Input onChange={(e) => this.handleInputChange(e)} value={this.state.password} type="password" name="password" id="password" placeholder="Password:" />
             </FormGroup>
             <FormGroup>
               <Label for="confirmPassword">Password</Label>
-              <Input onChange={(e) => this.handleInputChange(e)} type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm password:" />
+              <Input onChange={(e) => this.handleInputChange(e)} value={this.state.confirmPassword} type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm password:" />
             </FormGroup>
             <Button>Register</Button>
             <hr />
           </Form>
         </div>
+        <Modal isOpen={this.state.modalToggle} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>Modal title</ModalHeader>
+          <ModalBody>
+            <div>{this.state.registerResult}</div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.toggleModal}>CTA</Button>
+            <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
       </React.Fragment>
     );
   }
 
-  renderRegisterFailed = () => {
-    if (this.state.registerFailed === true) {
-      return <div>Register failed. Please enter correct username, password and confirm password.</div>
-    }
+  toggleModal = () => {
+    this.setState({ modalToggle: !this.state.modalToggle })
   }
 
   handleInputChange = (e) => {
@@ -66,12 +76,20 @@ class Register extends React.Component {
       body: JSON.stringify(data)
     });
 
+    this.toggleModal();
+
+    this.setState({
+      email: '',
+      password: '',
+      confirmPassword: ''
+    });
+
     if (response.status !== 200) {
-      this.setState({ registerFailed: true })
+      this.setState({ registerResult: "Register failed. Please enter correct username, password and confirm password." })
       return;
     }
 
-    this.setState({ modalShow: 'block' })
+    this.setState({ registerResult: "You have registered succesfully." })
   }
 }
 

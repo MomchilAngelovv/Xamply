@@ -21,11 +21,11 @@ class Login extends React.Component {
           <Form className="col-md-4 col-sm-12" onSubmit={(e) => this.handleLogin(e)}>
             <FormGroup>
               <Label for="email">Email</Label>
-              <Input onChange={(e) => this.handleInputChange(e)} type="email" name="email" id="email" placeholder="Email:" />
+              <Input onChange={(e) => this.handleInputChange(e)} value={this.state.email} type="email" name="email" id="email" placeholder="Email:" />
             </FormGroup>
             <FormGroup>
               <Label for="password">Password</Label>
-              <Input onChange={(e) => this.handleInputChange(e)} type="password" name="password" id="password" placeholder="Password:" />
+              <Input onChange={(e) => this.handleInputChange(e)} value={this.state.password} type="password" name="password" id="password" placeholder="Password:" />
             </FormGroup>
             <Button>Login</Button>
             <hr />
@@ -61,12 +61,17 @@ class Login extends React.Component {
       body: JSON.stringify(data)
     });
 
+    this.setState({
+      email: '',
+      password: '',
+    });
+
     if (response.status !== 200) {
       return;
     }
 
     const responseData = await response.json();
-    this.props.login(responseData.currentUser)
+    this.props.login(responseData.data)
     this.props.history.push('/')
   }
 }

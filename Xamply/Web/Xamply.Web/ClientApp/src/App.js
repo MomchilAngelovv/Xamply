@@ -16,7 +16,7 @@ export default class App extends React.Component {
         <Route exact path='/profile' component={Profile} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
-        <Route exact path='/exam' component={Exam} />
+        <Route exact path='/exam/:id' component={Exam} />
         <Route exact path='/examfinish' component={ExamFinish} />
       </Layout>
     );  
