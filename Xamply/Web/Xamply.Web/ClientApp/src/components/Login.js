@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux'
 import { usersActions } from '../actions/UsersActions'
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 class Login extends React.Component {
   constructor(props) {
@@ -20,17 +20,17 @@ class Login extends React.Component {
         <div className="row justify-content-center">
           <Form className="col-md-4 col-sm-12" onSubmit={(e) => this.handleLogin(e)}>
             <FormGroup>
-              <Label for="exampleEmail">Email</Label>
-              <Input onChange={(e) => this.handleInputChange(e)} type="email" name="email" id="exampleEmail" placeholder="Email:" />
+              <Label for="email">Email</Label>
+              <Input onChange={(e) => this.handleInputChange(e)} type="email" name="email" id="email" placeholder="Email:" />
             </FormGroup>
             <FormGroup>
-              <Label for="examplePassword">Password</Label>
-              <Input onChange={(e) => this.handleInputChange(e)} type="password" name="password" id="examplePassword" placeholder="Password:" />
+              <Label for="password">Password</Label>
+              <Input onChange={(e) => this.handleInputChange(e)} type="password" name="password" id="password" placeholder="Password:" />
             </FormGroup>
             <Button>Login</Button>
+            <hr />
           </Form>
         </div>
-        <hr />
       </React.Fragment>
     );
   }
