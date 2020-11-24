@@ -4,6 +4,7 @@
 
     public class ExamsResultsCheckInputModel
     {
+        public string ExamId { get; set; }
         public IEnumerable<ExamsResultsCheckAnswer> Answers { get; set; }
     }
 }

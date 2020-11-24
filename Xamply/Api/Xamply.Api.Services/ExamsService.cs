@@ -99,8 +99,9 @@ namespace Xamply.Api.Services
                 .ToList();
         }
 
-        public async Task<int> ResultsCheckAsync(IEnumerable<ExamsResultsCheckAnswer> answers)
+        public async Task<int> FinishExamAsync(IEnumerable<ExamsResultsCheckAnswer> answers)
         {
+            //TODO: Think if we need to pass examId if we dont dublicate questions
             var questionIds = answers.Select(a => a.QuestionId);
 
             var questionsWithAnswers = await this.db.Questions

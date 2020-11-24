@@ -91,15 +91,19 @@ namespace Xamply.Api.Controllers
         }
 
         [Authorize]
-        [HttpPost("{id}/finish")]
-        public ActionResult<object> Finish(ExamsResultsCheckInputModel inputModel)
+        [HttpPost("finish")]
+        public async Task<ActionResult<BaseResponseModel>> FinishExamAsync(ExamsResultsCheckInputModel inputModel)
         {
-            var currectAnswers = this.examsService.ResultsCheckAsync(inputModel.Answers);
+            var correctAnswers = await this.examsService.FinishExamAsync(inputModel.Answers);
 
-            var response = new
+            var response = new BaseResponseModel
             {
-                TotalQuestions = inputModel.Answers.Count(),
-                CorrectAnswers = currectAnswers
+                Message = "TODO",
+                Status = ResponseStatuses.Success,
+                Data = new
+                {
+                    CorrectAnswers = correctAnswers
+                }
             };
 
             return response;

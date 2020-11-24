@@ -42,31 +42,52 @@ class Exam extends React.Component {
     })
   }
 
-  handleAnswer = (e, questionId, answerText) => {
+  handleAnswer = async (e, questionId, answerText) => {
 
-    console.log(e, questionId, answerText)
-    //this.setState({ answers: this.state.answers.push({ questionId, answerText }) })
+    this.state.answers.push({ questionId, answerText });
+    const currentQuestionIndex = this.state.exam.questions.indexOf(this.state.currentQuestion);
 
-    //if (this.state.currentQuestion.id === this.state.exam.questions[this.state.exam.questions.length - 1]) {
-    //  const data = {
-    //    answers: this.state.answers
-    //  }
+    console.log(currentQuestionIndex, this.state.exam.questionCount - 1)
+    if (currentQuestionIndex === this.state.exam.questionCount - 1) {
+      const data = {
+        examId: this.state.exam.id,
+        answers: this.state.answers
+      }
 
-    //  fetch(`https://localhost:44312/exams/${this.state.exam.id}/finish`, {
-    //    method: 'POST',
-    //    headers: {
-    //      'Content-Type': 'application/json',
-    //      'Authorization': `Bearer ${this.props.currentUser.accessToken}`
-    //    },
-    //    body: JSON.stringify(data)
-    //  })
+      const response = await fetch(`https://localhost:44312/exams/finish`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.props.currentUser.accessToken}`
+        },
+        body: JSON.stringify(data)
+      })
 
-    //  this.props.history.push("/examfinish");
-    //  return;
-    //}
+      if (response.status !== 200) {
+        return;
+      }
 
-    //const nextQuestionIndex = this.state.exam.questions.indexOf(this.state.currentQuestion) + 1
-    //this.setState({ currentQuestion: this.state.exam.questions[nextQuestionIndex] })
+      const responseData = await response.json()
+
+      this.props.history.push({
+        pathname: '/examfinish',
+        state: {
+          questionCount: this.state.exam.questionCount,
+          correctAnswers: responseData.data.correctAnswers
+        },
+      });
+
+      this.setState({
+        exam: null,
+        currentQuestion: null,
+        answers: []
+      })
+
+      return;
+    }
+
+    const nextQuestionIndex = currentQuestionIndex + 1
+    this.setState({ currentQuestion: this.state.exam.questions[nextQuestionIndex] })
   }
 }
 
