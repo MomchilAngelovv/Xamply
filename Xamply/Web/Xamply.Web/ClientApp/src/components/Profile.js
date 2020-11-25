@@ -1,28 +1,62 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux'
+import { Row, Col, Alert, ListGroup, ListGroupItem } from 'reactstrap';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      data: null,
+      userInformation: null,
+      exams: []
     }
   }
 
   render() {
     return (
-      <div className="row">
-        <div className="col s12">
-          <ul className="tabs">
-            <li className="tab col s3"><button onClick={(e) => this.showData(e, this.props.currentUser.id)}>Id</button></li>
-            <li className="tab col s3"><button onClick={(e) => this.showData(e, this.props.currentUser.email)} className="active">Email</button></li>
-            <li className="tab col s3"><button onClick={(e) => this.showData(e, this.props.currentUser.accessToken)}>Access token</button></li>
-          </ul>
-        </div>
-        <div className="col s12">{this.state.data}</div>
-      </div>
+      <React.Fragment>
+        <h4 className="text-center">User information:</h4>
+        <Row>
+          <Col className="d-flex justify-content-center">
+            <button onClick={(e) => this.showData(e, this.props.currentUser.id)} className="btn btn-primary">Id</button>
+          </Col>
+          <Col className="d-flex justify-content-center">
+            <button onClick={(e) => this.showData(e, this.props.currentUser.email)} className="btn btn-primary">Email</button>
+          </Col>
+          <Col className="d-flex justify-content-center">
+            <button onClick={(e) => this.showData(e, this.props.currentUser.accessToken)} className="btn btn-primary">Access token</button>
+          </Col>
+        </Row>
+        {this.state.userInformation !== null &&
+          <React.Fragment>
+            <hr />
+            <Alert color="success" className="text-center text-break">
+              {this.state.userInformation}
+            </Alert>
+          </React.Fragment>
+        }
+        <hr />
+        <h4 className="text-center">Exams:</h4>
+        {this.renderExams()}
+
+      </React.Fragment>
     );
+  }
+
+  async componentDidMount() {
+    const response = await fetch(`https://localhost:44312/users/${this.props.currentUser.id}/exams`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.props.currentUser.accessToken}`
+      },
+    });
+
+    if (response.status !== 200) {
+      return;
+    }
+    const responseData = await response.json();
+    console.log(responseData)
   }
 
   componentDidUpdate() {
@@ -31,8 +65,28 @@ class Profile extends React.Component {
     }
   }
 
-  showData = (e, data) => {
-    this.setState({ data: data })
+  renderExams = () => {
+    if (this.state.exams.length === 0) {
+      return (
+        <Alert color="danger" className="text-center text-break">
+          You have not taken any exams still.
+        </Alert>
+      )
+    }
+
+    return (
+      <ListGroup>
+        <ListGroupItem tag="button" action>Cras justo odio</ListGroupItem>
+        <ListGroupItem tag="button" action>Dapibus ac facilisis in</ListGroupItem>
+        <ListGroupItem tag="button" action>Morbi leo risus</ListGroupItem>
+        <ListGroupItem tag="button" action>Porta ac consectetur ac</ListGroupItem>
+        <ListGroupItem tag="button" action>Vestibulum at eros</ListGroupItem>
+      </ListGroup>
+    )
+  }
+
+  showData = (e, userInformation) => {
+    this.setState({ userInformation: userInformation })
   }
 }
 

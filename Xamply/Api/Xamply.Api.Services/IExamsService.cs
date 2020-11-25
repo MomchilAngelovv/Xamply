@@ -11,7 +11,7 @@ namespace Xamply.Api.Services
     public interface IExamsService
     {
         Task<Exam> CreateAsync(IEnumerable<ExamQuestionApi> questionsApi, int categoryId, int difficultyId, string userId);
-        IEnumerable<object> GetMyExams(string userId);
+        Task<IEnumerable<object>> GetUserExams(string userId);
         Task<int> FinishExamAsync(IEnumerable<ExamsResultsCheckAnswer> answers);
         Exam GetById(string id);
     }

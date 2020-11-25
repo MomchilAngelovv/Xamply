@@ -37,20 +37,6 @@ namespace Xamply.Api.Controllers
             this.examsService = examsService;
         }
 
-        [Authorize]
-        public ActionResult<object> MyExams()
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var myExams = this.examsService.GetMyExams(userId);
-
-            var response = new
-            {
-                MyExams = myExams
-            };
-
-            return response;
-        }
-
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<BaseResponseModel>> NewExam(ExamsNewExamInputModel inputModel)

@@ -85,9 +85,9 @@ namespace Xamply.Api.Services
                 .FirstOrDefault(e => e.Id == id);
         }
 
-        public IEnumerable<object> GetMyExams(string userId)
+        public async Task<IEnumerable<object>> GetUserExams(string userId)
         {
-            return this.db.Exams
+            var exams = await this.db.Exams
                 .Where(e => e.UserId == userId)
                 .Select(e => new
                 {
@@ -96,7 +96,9 @@ namespace Xamply.Api.Services
                     Difficulty = e.Difficulty.Value,
                     e.QuestionCount
                 })
-                .ToList();
+                .ToListAsync();
+
+            return exams;
         }
 
         public async Task<int> FinishExamAsync(IEnumerable<ExamsResultsCheckAnswer> answers)

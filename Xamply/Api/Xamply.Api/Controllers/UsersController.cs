@@ -12,11 +12,14 @@
     public class UsersController : ControllerBase
     {
         private readonly IUsersService usersService;
+        private readonly IExamsService examsService;
 
         public UsersController(
-            IUsersService usersService)
+            IUsersService usersService,
+            IExamsService examsService)
         {
             this.usersService = usersService;
+            this.examsService = examsService;
         }
 
         [HttpPost("register")]
@@ -52,6 +55,24 @@
                     user.Id,
                     user.Email,
                     AccessToken = user.MetaData
+                },
+            };
+
+            return response;
+        }
+
+
+        [HttpGet("{id}/exams")]
+        public async Task<ActionResult<BaseResponseModel>> GetUserExams(string id)
+        {
+            var exams = await this.examsService.GetUserExams(id);
+            var response = new BaseResponseModel
+            {
+                Message = "TODO",
+                Status = ResponseStatuses.Success,
+                Data = new
+                {
+                    Exams = exams
                 },
             };
 

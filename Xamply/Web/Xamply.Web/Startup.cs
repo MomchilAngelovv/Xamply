@@ -15,14 +15,14 @@ namespace Xamply.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
 
-            app.UseSpa(spa =>
+            app.UseSpa((spa) =>
             {
                 spa.Options.SourcePath = "ClientApp";
 
