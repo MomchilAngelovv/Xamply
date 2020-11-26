@@ -8,7 +8,7 @@ class Profile extends React.Component {
 
     this.state = {
       userInformation: null,
-      exams: []
+      exams: null
     }
   }
 
@@ -37,28 +37,42 @@ class Profile extends React.Component {
         }
         <hr />
         <h4 className="text-center">Exams:</h4>
-        {this.renderExams()}
+
+        {this.state.exams &&
+          <ListGroup>
+            {this.state.exams.map(e => (
+              <ListGroupItem key={e.id} tag="button" action>{e.id} : {e.category} : {e.difficulty} : {e.questionCount} : {e.score}</ListGroupItem>)
+            )}
+          </ListGroup>
+        }
+
+        {!this.state.exams &&
+          <Alert color="warning" className="text-center text-break">
+            Loading...
+          </Alert>
+        }
 
       </React.Fragment>
     );
   }
 
   async componentDidMount() {
-    const response = await fetch(`https://localhost:44312/users/${this.props.currentUser.id}/exams`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.props.currentUser.accessToken}`
-      },
-    });
+    setTimeout(async () => {
+      const response = await fetch(`https://localhost:44312/users/${this.props.currentUser.id}/exams`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.props.currentUser.accessToken}`
+        },
+      });
 
-    if (response.status !== 200) {
-      return;
-    }
-    const responseData = await response.json();
+      if (response.status !== 200) {
+        return;
+      }
+      const responseData = await response.json();
 
-    this.setState({ exams: responseData.data.exams })
-    console.log(responseData)
+      this.setState({ exams: responseData.data.exams })
+      console.log(responseData)}, 5000)
   }
 
   componentDidUpdate() {
@@ -67,21 +81,21 @@ class Profile extends React.Component {
     }
   }
 
-  renderExams = () => {
-    if (this.state.exams.length === 0) {
-      return (
-        <Alert color="danger" className="text-center text-break">
-          You have not taken any exams still.
-        </Alert>
-      )
-    }
+  //renderExams = () => {
+  //  if (this.state.exams.length === 0) {
+  //    return (
+  //      <Alert color="danger" className="text-center text-break">
+  //        You have not taken any exams still.
+  //      </Alert>
+  //    )
+  //  }
 
-    return (
-      <ListGroup>
-        {this.state.exams.map(e => <ListGroupItem key={e.id} tag="button" action>{e.id} : {e.category} : {e.difficulty} : {e.questionCount} : {e.score}</ListGroupItem>)}
-      </ListGroup>
-    )
-  }
+  //  return (
+  //    <ListGroup>
+  //      {this.state.exams.map(e => <ListGroupItem key={e.id} tag="button" action>{e.id} : {e.category} : {e.difficulty} : {e.questionCount} : {e.score}</ListGroupItem>)}
+  //    </ListGroup>
+  //  )
+  //}
 
   showData = (e, userInformation) => {
     this.setState({ userInformation: userInformation })
