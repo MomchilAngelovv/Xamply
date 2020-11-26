@@ -243,6 +243,9 @@ namespace Xamply.Data.Migrations
                     b.Property<int>("QuestionCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ResultId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
@@ -254,6 +257,10 @@ namespace Xamply.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("DifficultyId");
+
+                    b.HasIndex("ResultId")
+                        .IsUnique()
+                        .HasFilter("[ResultId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -333,20 +340,19 @@ namespace Xamply.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ExamId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MetaData")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Score")
-                        .HasColumnType("decimal(4,4)");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExamId");
 
                     b.ToTable("Results");
                 });
@@ -543,6 +549,10 @@ namespace Xamply.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Xamply.Data.Models.Result", "Result")
+                        .WithOne("Exam")
+                        .HasForeignKey("Xamply.Data.Models.Exam", "ResultId");
+
                     b.HasOne("Xamply.Data.Models.XamplyUser", "User")
                         .WithMany("Exams")
                         .HasForeignKey("UserId");
@@ -550,6 +560,8 @@ namespace Xamply.Data.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Difficulty");
+
+                    b.Navigation("Result");
 
                     b.Navigation("User");
                 });
@@ -573,15 +585,6 @@ namespace Xamply.Data.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("Xamply.Data.Models.Result", b =>
-                {
-                    b.HasOne("Xamply.Data.Models.Exam", "Exam")
-                        .WithMany()
-                        .HasForeignKey("ExamId");
-
-                    b.Navigation("Exam");
-                });
-
             modelBuilder.Entity("Xamply.Data.Models.Category", b =>
                 {
                     b.Navigation("Exams");
@@ -602,6 +605,11 @@ namespace Xamply.Data.Migrations
                     b.Navigation("Answers");
 
                     b.Navigation("ExamsQuestions");
+                });
+
+            modelBuilder.Entity("Xamply.Data.Models.Result", b =>
+                {
+                    b.Navigation("Exam");
                 });
 
             modelBuilder.Entity("Xamply.Data.Models.XamplyUser", b =>

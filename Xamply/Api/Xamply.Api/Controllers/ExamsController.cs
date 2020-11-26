@@ -80,7 +80,7 @@ namespace Xamply.Api.Controllers
         [HttpPost("finish")]
         public async Task<ActionResult<BaseResponseModel>> FinishExamAsync(ExamsResultsCheckInputModel inputModel)
         {
-            var correctAnswers = await this.examsService.FinishExamAsync(inputModel.Answers);
+            var correctAnswers = await this.examsService.FinishExamAsync(inputModel.ExamId, inputModel.Answers);
 
             var response = new BaseResponseModel
             {
@@ -105,18 +105,18 @@ namespace Xamply.Api.Controllers
             {
                 Message = "TODO",
                 Status = ResponseStatuses.Success,
-                Data = new 
+                Data = new
                 {
                     exam.Id,
                     exam.QuestionCount,
                     Questions = exam.ExamsQuestions
                         .Select(eq => eq.Question)
-                        .Select(q => new 
-                        { 
+                        .Select(q => new
+                        {
                             q.Id,
                             q.Value,
-                            Answers = q.Answers.Select(a => new 
-                            { 
+                            Answers = q.Answers.Select(a => new
+                            {
                                 a.Value,
                             })
                             .ToList()

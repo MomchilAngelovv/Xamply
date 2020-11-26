@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Xamply.Data.Models
@@ -12,8 +13,9 @@ namespace Xamply.Data.Models
         }
 
         public string Id { get; set; }
-        [Column(TypeName = "decimal(4, 4)")]
+        [Column(TypeName = "decimal(14, 4)")]
         public decimal Score { get; set; }
+        [Required]
         public string ExamId { get; set; }
 
         public virtual Exam Exam { get; set; }

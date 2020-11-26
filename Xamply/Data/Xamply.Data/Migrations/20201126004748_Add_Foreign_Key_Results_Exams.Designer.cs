@@ -10,8 +10,8 @@ using Xamply.Data;
 namespace Xamply.Data.Migrations
 {
     [DbContext(typeof(XamplyDbContext))]
-    [Migration("20201116214813_Initial_Database_Create")]
-    partial class Initial_Database_Create
+    [Migration("20201126004748_Add_Foreign_Key_Results_Exams")]
+    partial class Add_Foreign_Key_Results_Exams
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -245,6 +245,9 @@ namespace Xamply.Data.Migrations
                     b.Property<int>("QuestionCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ResultId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
@@ -256,6 +259,10 @@ namespace Xamply.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("DifficultyId");
+
+                    b.HasIndex("ResultId")
+                        .IsUnique()
+                        .HasFilter("[ResultId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -321,6 +328,35 @@ namespace Xamply.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("Xamply.Data.Models.Result", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExamId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MetaData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Score")
+                        .HasColumnType("decimal(14,4)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Results");
                 });
 
             modelBuilder.Entity("Xamply.Data.Models.XamplyRole", b =>
@@ -515,6 +551,10 @@ namespace Xamply.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Xamply.Data.Models.Result", "Result")
+                        .WithOne("Exam")
+                        .HasForeignKey("Xamply.Data.Models.Exam", "ResultId");
+
                     b.HasOne("Xamply.Data.Models.XamplyUser", "User")
                         .WithMany("Exams")
                         .HasForeignKey("UserId");
@@ -522,6 +562,8 @@ namespace Xamply.Data.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Difficulty");
+
+                    b.Navigation("Result");
 
                     b.Navigation("User");
                 });
@@ -565,6 +607,11 @@ namespace Xamply.Data.Migrations
                     b.Navigation("Answers");
 
                     b.Navigation("ExamsQuestions");
+                });
+
+            modelBuilder.Entity("Xamply.Data.Models.Result", b =>
+                {
+                    b.Navigation("Exam");
                 });
 
             modelBuilder.Entity("Xamply.Data.Models.XamplyUser", b =>

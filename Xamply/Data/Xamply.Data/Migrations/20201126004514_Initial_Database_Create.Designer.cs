@@ -10,8 +10,8 @@ using Xamply.Data;
 namespace Xamply.Data.Migrations
 {
     [DbContext(typeof(XamplyDbContext))]
-    [Migration("20201122142159_Add_Results_Table")]
-    partial class Add_Results_Table
+    [Migration("20201126004514_Initial_Database_Create")]
+    partial class Initial_Database_Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -245,6 +245,9 @@ namespace Xamply.Data.Migrations
                     b.Property<int>("QuestionCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ResultId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
@@ -335,20 +338,22 @@ namespace Xamply.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ExamId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MetaData")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Score")
-                        .HasColumnType("decimal(4,4)");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExamId");
+                    b.HasIndex("ExamId")
+                        .IsUnique();
 
                     b.ToTable("Results");
                 });
@@ -578,8 +583,10 @@ namespace Xamply.Data.Migrations
             modelBuilder.Entity("Xamply.Data.Models.Result", b =>
                 {
                     b.HasOne("Xamply.Data.Models.Exam", "Exam")
-                        .WithMany()
-                        .HasForeignKey("ExamId");
+                        .WithOne("Result")
+                        .HasForeignKey("Xamply.Data.Models.Result", "ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Exam");
                 });
@@ -597,6 +604,8 @@ namespace Xamply.Data.Migrations
             modelBuilder.Entity("Xamply.Data.Models.Exam", b =>
                 {
                     b.Navigation("ExamsQuestions");
+
+                    b.Navigation("Result");
                 });
 
             modelBuilder.Entity("Xamply.Data.Models.Question", b =>

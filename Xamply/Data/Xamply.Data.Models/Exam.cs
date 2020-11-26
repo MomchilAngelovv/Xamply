@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Diagnostics.CodeAnalysis;
 
     public class Exam : IEntityMetaData
     {
@@ -18,10 +19,13 @@
         public int CategoryId { get; set; }
         public int DifficultyId { get; set; }
         public string UserId { get; set; }
+        [AllowNull]
+        public string ResultId { get; set; }
 
         public virtual XamplyUser User { get; set; }
         public virtual Category Category { get; set; }
         public virtual Difficulty Difficulty { get; set; }
+        public virtual Result Result { get; set; }
 
         public virtual ICollection<ExamQuestion> ExamsQuestions { get; set; } = new HashSet<ExamQuestion>();
 

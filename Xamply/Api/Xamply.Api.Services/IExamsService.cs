@@ -12,7 +12,7 @@ namespace Xamply.Api.Services
     {
         Task<Exam> CreateAsync(IEnumerable<ExamQuestionApi> questionsApi, int categoryId, int difficultyId, string userId);
         Task<IEnumerable<object>> GetUserExams(string userId);
-        Task<int> FinishExamAsync(IEnumerable<ExamsResultsCheckAnswer> answers);
+        Task<int> FinishExamAsync(string examId, IEnumerable<ExamsResultsCheckAnswer> answers);
         Exam GetById(string id);
     }
 }

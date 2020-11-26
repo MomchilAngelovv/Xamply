@@ -27,34 +27,45 @@ namespace Xamply.Api.Services
         }
 
 
-        public async Task<Exam> CreateAsync(IEnumerable<ExamQuestionApi> questionsApi, int categoryId, int difficultyId, string userId)
+        public async Task<Exam> CreateAsync(IEnumerable<ExamQuestionApi> examQuestions, int categoryId, int difficultyId, string userId)
         {
             var exam = new Exam
             {
                 CategoryId = categoryId,
                 DifficultyId = difficultyId,
-                QuestionCount = questionsApi.Count(),
+                QuestionCount = examQuestions.Count(),
                 UserId = userId
             };
 
-            var questionList = questionsApi.Select(q => q.Question).ToList();
-            var searchQuestions = await this.questionsService.GetQuestionListByValues(questionList);
-            var searchedQuestionValues = searchQuestions.Select(sq => sq.Value).ToList();
+            var questionList = examQuestions.Select(q => q.Question).ToList();
+            var questionsInDb = await this.questionsService.GetQuestionListByValues(questionList);
+            var searchedQuestionValues = questionsInDb.Select(sq => sq.Value).ToList();
 
-            foreach (var questionApi in questionsApi)
+            foreach (var examQuestion in examQuestions)
             {
+                if (questionsInDb.Any(q => q.Value == examQuestion.Question))
+                {
+                    exam.ExamsQuestions.Add(new ExamQuestion
+                    {
+                        Exam = exam,
+                        Question = questionsInDb.First(q => q.Value == examQuestion.Question)
+                    });
+
+                    continue;
+                }
+
                 var question = new Question
                 {
-                    Value = questionApi.Question
+                    Value = examQuestion.Question
                 };
 
                 question.Answers.Add(new Answer
                 {
-                    Value = questionApi.CorrectAnswer,
+                    Value = examQuestion.CorrectAnswer,
                     IsCorrect = true
                 });
 
-                foreach (var incorrectAnswer in questionApi.IncorrectAnswers)
+                foreach (var incorrectAnswer in examQuestion.IncorrectAnswers)
                 {
                     question.Answers.Add(new Answer
                     {
@@ -94,16 +105,18 @@ namespace Xamply.Api.Services
                     e.Id,
                     Category = e.Category.Value,
                     Difficulty = e.Difficulty.Value,
-                    e.QuestionCount
+                    e.QuestionCount,
+                    e.Result.Score
                 })
                 .ToListAsync();
 
             return exams;
         }
 
-        public async Task<int> FinishExamAsync(IEnumerable<ExamsResultsCheckAnswer> answers)
+        public async Task<int> FinishExamAsync(string examId, IEnumerable<ExamsResultsCheckAnswer> answers)
         {
-            //TODO: Think if we need to pass examId if we dont dublicate questions
+            var exam = this.db.Exams.FirstOrDefault(e => e.Id == examId);
+
             var questionIds = answers.Select(a => a.QuestionId);
 
             var questionsWithAnswers = await this.db.Questions
@@ -126,6 +139,24 @@ namespace Xamply.Api.Services
                     correctAnswersCounter++;
                 }
             }
+
+            var score = 0.00m;
+
+            if (correctAnswersCounter != 0)
+            {
+                score = (decimal)correctAnswersCounter / answers.Count() * 100;
+            }
+
+            var result = new Result
+            {
+                ExamId = exam.Id,
+                Score = Math.Round(score, 4)
+            };
+
+            exam.ResultId = result.Id;
+
+            await this.db.Results.AddAsync(result);
+            await this.db.SaveChangesAsync();
 
             return correctAnswersCounter;
         }

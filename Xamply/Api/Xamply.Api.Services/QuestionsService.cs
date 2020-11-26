@@ -20,9 +20,11 @@ namespace Xamply.Api.Services
 
         public async Task<IEnumerable<Question>> GetQuestionListByValues(List<string> values)
         {
-            return await this.db.Questions
+            var questions =  await this.db.Questions
                 .Where(question => values.Contains(question.Value))
                 .ToListAsync();
+
+            return questions;
         }
     }
 }

@@ -19,5 +19,20 @@
         public DbSet<ExamQuestion> ExamsQuestions { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Result> Results { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Exam>()
+                .HasOne(e => e.Result)
+                .WithOne(r => r.Exam)
+                .HasForeignKey<Result>(r => r.ExamId);
+
+            builder.Entity<Result>()
+                .HasOne(r => r.Exam)
+                .WithOne(e => e.Result)
+                .HasForeignKey<Exam>(e => e.ResultId);
+
+            base.OnModelCreating(builder);
+        }
     }
 }
