@@ -1,6 +1,6 @@
 ﻿namespace Xamply.Api.Common
 {
-    public class BaseResponseModel
+    public class ResponseModel
     {
         public string Message { get; set; }
         public string Status { get; set; }

@@ -26,7 +26,7 @@ class NavigationBar extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="mr-auto" navbar>
               <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">Reactstrap GitHub</NavLink>
+                <NavLink to="/rankings" tag={ReactLink}>Rankings</NavLink>
               </NavItem>
             </Nav>
             {this.userButtons()}

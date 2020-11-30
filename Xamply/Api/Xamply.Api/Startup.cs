@@ -86,6 +86,7 @@ namespace Xamply.Api
             services.AddTransient<IHttpClientAsync, HttpClientAsync>();
             services.AddTransient<IExamsService, ExamsService>();
             services.AddTransient<IQuestionsService, QuestionsService>();
+            services.AddTransient<IRankingsService, RankingsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

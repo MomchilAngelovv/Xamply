@@ -38,7 +38,7 @@
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<BaseResponseModel>> Login(UsersLoginInputModel inputModel)
+        public async Task<ActionResult<ResponseModel>> Login(UsersLoginInputModel inputModel)
         {
             var user = await this.usersService.LoginAsync(inputModel.Email, inputModel.Password);
             if (user == null)
@@ -46,7 +46,7 @@
                 return this.Unauthorized();
             }
 
-            var response = new BaseResponseModel
+            var response = new ResponseModel
             {
                 Message = ResponseMessages.LoginSuccess,
                 Status = ResponseStatuses.Success,
@@ -63,10 +63,10 @@
 
 
         [HttpGet("{id}/exams")]
-        public async Task<ActionResult<BaseResponseModel>> GetUserExams(string id)
+        public async Task<ActionResult<ResponseModel>> GetUserExams(string id)
         {
             var exams = await this.examsService.GetUserExams(id);
-            var response = new BaseResponseModel
+            var response = new ResponseModel
             {
                 Message = "TODO",
                 Status = ResponseStatuses.Success,

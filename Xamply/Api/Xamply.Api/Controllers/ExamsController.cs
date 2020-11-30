@@ -24,22 +24,25 @@ namespace Xamply.Api.Controllers
         private readonly IDifficultiesService difficultiesService;
         private readonly IHttpClientAsync httpClient;
         private readonly IExamsService examsService;
+        private readonly IRankingsService rankingsService;
 
         public ExamsController(
             ICategoriesService categoriesService,
             IDifficultiesService difficultiesService,
             IHttpClientAsync httpClient,
-            IExamsService examsService)
+            IExamsService examsService,
+            IRankingsService rankingsService)
         {
             this.categoriesService = categoriesService;
             this.difficultiesService = difficultiesService;
             this.httpClient = httpClient;
             this.examsService = examsService;
+            this.rankingsService = rankingsService;
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<BaseResponseModel>> NewExam(ExamsNewExamInputModel inputModel)
+        public async Task<ActionResult<ResponseModel>> NewExam(ExamsNewExamInputModel inputModel)
         {
             var category = await this.categoriesService.GetByValueAsync(inputModel.CategoryValue);
             if (category == null)
@@ -63,7 +66,7 @@ namespace Xamply.Api.Controllers
 
             var exam = await this.examsService.CreateAsync(data.Results, category.Id, difficulty.Id, this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            var response = new BaseResponseModel
+            var response = new ResponseModel
             {
                 Message = "",
                 Status = ResponseStatuses.Success,
@@ -78,11 +81,11 @@ namespace Xamply.Api.Controllers
 
         [Authorize]
         [HttpPost("finish")]
-        public async Task<ActionResult<BaseResponseModel>> FinishExamAsync(ExamsResultsCheckInputModel inputModel)
+        public async Task<ActionResult<ResponseModel>> FinishExamAsync(ExamsResultsCheckInputModel inputModel)
         {
             var correctAnswers = await this.examsService.FinishExamAsync(inputModel.ExamId, inputModel.Answers);
 
-            var response = new BaseResponseModel
+            var response = new ResponseModel
             {
                 Message = "TODO",
                 Status = ResponseStatuses.Success,
@@ -97,11 +100,11 @@ namespace Xamply.Api.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public ActionResult<BaseResponseModel> GetById(string id)
+        public ActionResult<ResponseModel> GetById(string id)
         {
             var exam = this.examsService.GetById(id);
 
-            var response = new BaseResponseModel
+            var response = new ResponseModel
             {
                 Message = "TODO",
                 Status = ResponseStatuses.Success,
@@ -122,6 +125,23 @@ namespace Xamply.Api.Controllers
                             .ToList()
                         })
                         .ToList(),
+                }
+            };
+
+            return response;
+        }
+
+        [HttpGet("rankings")]
+        public async Task<ActionResult<ResponseModel>> Rankings()
+        {
+            var userRankings = await this.rankingsService.GetUserRankings();
+            var response = new ResponseModel
+            {
+                Message = "TODO",
+                Status = ResponseStatuses.Success,
+                Data = new
+                {
+                    UserRankings = userRankings
                 }
             };
 

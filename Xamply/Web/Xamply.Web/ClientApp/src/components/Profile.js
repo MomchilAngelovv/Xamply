@@ -57,22 +57,21 @@ class Profile extends React.Component {
   }
 
   async componentDidMount() {
-    setTimeout(async () => {
-      const response = await fetch(`https://localhost:44312/users/${this.props.currentUser.id}/exams`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.currentUser.accessToken}`
-        },
-      });
+    const response = await fetch(`https://localhost:44312/users/${this.props.currentUser.id}/exams`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.props.currentUser.accessToken}`
+      },
+    });
 
-      if (response.status !== 200) {
-        return;
-      }
-      const responseData = await response.json();
+    if (response.status !== 200) {
+      return;
+    }
+    const responseData = await response.json();
 
-      this.setState({ exams: responseData.data.exams })
-      console.log(responseData)}, 5000)
+    this.setState({ exams: responseData.data.exams })
+    console.log(responseData)
   }
 
   componentDidUpdate() {
@@ -80,22 +79,6 @@ class Profile extends React.Component {
       this.props.history.push('/login')
     }
   }
-
-  //renderExams = () => {
-  //  if (this.state.exams.length === 0) {
-  //    return (
-  //      <Alert color="danger" className="text-center text-break">
-  //        You have not taken any exams still.
-  //      </Alert>
-  //    )
-  //  }
-
-  //  return (
-  //    <ListGroup>
-  //      {this.state.exams.map(e => <ListGroupItem key={e.id} tag="button" action>{e.id} : {e.category} : {e.difficulty} : {e.questionCount} : {e.score}</ListGroupItem>)}
-  //    </ListGroup>
-  //  )
-  //}
 
   showData = (e, userInformation) => {
     this.setState({ userInformation: userInformation })

@@ -7,6 +7,7 @@ import Register from './components/Register'
 import Profile from './components/Profile'
 import Exam from './components/Exam'
 import ExamFinish from './components/ExamFinish'
+import Rankings from './components/Rankings'
 
 export default class App extends React.Component {
   render() {
@@ -18,6 +19,7 @@ export default class App extends React.Component {
         <Route exact path='/register' component={Register} />
         <Route exact path='/exam/:id' component={Exam} />
         <Route exact path='/examfinish' component={ExamFinish} />
+        <Route exact path='/rankings' component={Rankings} />
       </Layout>
     );  
   }
