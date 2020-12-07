@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux'
+import { Col, Row, Card, CardImg, CardText, CardBody, CardTitle, Button } from 'reactstrap';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -48,13 +49,14 @@ class Dashboard extends React.Component {
     }
 
     return (
-      <div className="row">
+      <Row>
         {this.state.categories.map(c =>
-          <div key={c.id} className="col s6">
-            <div className="card blue-grey darken-1">
-              <div className="card-content white-text">
-                <span className="card-title">{c.value}</span>
-                <p>
+          <Col>
+            <Card key={c.id}>
+              <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+              <CardBody>
+                <CardTitle tag="h5">{c.value}</CardTitle>
+                <CardText>
                   <label>
                     <input name="difficulty" type="radio" className="with-gap" value="Easy" />
                     <span>Easy</span>
@@ -69,14 +71,13 @@ class Dashboard extends React.Component {
                     <input name="difficulty" type="radio" className="with-gap" value="Hard" />
                     <span>Hard</span>
                   </label>
-                </p>
-              </div>
-              <div className="card-action">
-                <button onClick={(e) => this.startExam(e, c.value)} >Start test</button>
-              </div>
-            </div>
-          </div>)}
-      </div>
+                </CardText>
+                <Button onClick={(e) => this.startExam(e, c.value)} >Start test</Button>
+              </CardBody>
+            </Card>
+          </Col>
+        )}
+      </Row>
     )
   }
 

@@ -1,5 +1,6 @@
 ﻿namespace Xamply.Api.Controllers
 {
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using System.Security.Claims;
 
@@ -7,11 +8,23 @@
     [Route("[controller]")]
     public class WelcomeController : ControllerBase
     {
-        public ActionResult<string> Get()
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        private readonly IWebHostEnvironment environment;
 
-            return $"Welcome to Xamply api. For detailed information please check ReadMe.txt file. Currently logged as {userId ?? "not logged"}";
+        public WelcomeController(IWebHostEnvironment environment)
+        {
+            this.environment = environment;
+        }
+
+        public ActionResult<object> Get()
+        {
+            var env = this.environment.EnvironmentName;
+
+            var response = new
+            {
+                Environemt = env
+            };
+
+            return response;
         }
     }
 }

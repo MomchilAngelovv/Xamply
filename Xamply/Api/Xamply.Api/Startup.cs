@@ -16,6 +16,7 @@ namespace Xamply.Api
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.IdentityModel.Tokens;
     using System.Text;
+    using Microsoft.AspNetCore.Mvc;
 
     public class Startup
     {
@@ -29,7 +30,11 @@ namespace Xamply.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers();
+
+            services.AddControllers(options => 
+            {
+
+            });
 
             services.AddDbContext<XamplyDbContext>(options =>
             {
@@ -57,6 +62,8 @@ namespace Xamply.Api
             })
             .AddEntityFrameworkStores<XamplyDbContext>()
             .AddDefaultTokenProviders();
+
+            
 
             services.AddAuthentication(options =>
             {
