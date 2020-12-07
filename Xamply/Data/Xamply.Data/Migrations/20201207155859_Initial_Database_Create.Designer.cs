@@ -10,7 +10,7 @@ using Xamply.Data;
 namespace Xamply.Data.Migrations
 {
     [DbContext(typeof(XamplyDbContext))]
-    [Migration("20201126004514_Initial_Database_Create")]
+    [Migration("20201207155859_Initial_Database_Create")]
     partial class Initial_Database_Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,6 +174,9 @@ namespace Xamply.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MetaData")
                         .HasColumnType("nvarchar(max)");
 
@@ -246,7 +249,7 @@ namespace Xamply.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ResultId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
@@ -259,6 +262,10 @@ namespace Xamply.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("DifficultyId");
+
+                    b.HasIndex("ResultId")
+                        .IsUnique()
+                        .HasFilter("[ResultId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -339,7 +346,7 @@ namespace Xamply.Data.Migrations
 
                     b.Property<string>("ExamId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MetaData")
                         .HasColumnType("nvarchar(max)");
@@ -351,9 +358,6 @@ namespace Xamply.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExamId")
-                        .IsUnique();
 
                     b.ToTable("Results");
                 });
@@ -550,6 +554,10 @@ namespace Xamply.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Xamply.Data.Models.Result", "Result")
+                        .WithOne("Exam")
+                        .HasForeignKey("Xamply.Data.Models.Exam", "ResultId");
+
                     b.HasOne("Xamply.Data.Models.XamplyUser", "User")
                         .WithMany("Exams")
                         .HasForeignKey("UserId");
@@ -557,6 +565,8 @@ namespace Xamply.Data.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Difficulty");
+
+                    b.Navigation("Result");
 
                     b.Navigation("User");
                 });
@@ -580,17 +590,6 @@ namespace Xamply.Data.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("Xamply.Data.Models.Result", b =>
-                {
-                    b.HasOne("Xamply.Data.Models.Exam", "Exam")
-                        .WithOne("Result")
-                        .HasForeignKey("Xamply.Data.Models.Result", "ExamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Exam");
-                });
-
             modelBuilder.Entity("Xamply.Data.Models.Category", b =>
                 {
                     b.Navigation("Exams");
@@ -604,8 +603,6 @@ namespace Xamply.Data.Migrations
             modelBuilder.Entity("Xamply.Data.Models.Exam", b =>
                 {
                     b.Navigation("ExamsQuestions");
-
-                    b.Navigation("Result");
                 });
 
             modelBuilder.Entity("Xamply.Data.Models.Question", b =>
@@ -613,6 +610,11 @@ namespace Xamply.Data.Migrations
                     b.Navigation("Answers");
 
                     b.Navigation("ExamsQuestions");
+                });
+
+            modelBuilder.Entity("Xamply.Data.Models.Result", b =>
+                {
+                    b.Navigation("Exam");
                 });
 
             modelBuilder.Entity("Xamply.Data.Models.XamplyUser", b =>

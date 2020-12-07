@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux'
-import { Col, Row, Card, CardImg, CardText, CardBody, CardTitle, Button } from 'reactstrap';
+import { Col, Row, Card, CardImg, CardText, CardBody, CardTitle, Button, Input, Label } from 'reactstrap';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -15,8 +15,15 @@ class Dashboard extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h1 className="center-align">Choose category:</h1>
-        <input onChange={(e) => this.handleInputChange(e)} value={this.state.questionCount} name="questionCount" type="number" placeholder="Enter question numbers:" className="validate" />
+        <Row>
+          <Col>
+            <Label>Question count</Label>
+          </Col>
+          <Col>
+            <Input onChange={(e) => this.handleInputChange(e)} value={this.state.questionCount} name="questionCount" type="number" placeholder="Enter question numbers:" />
+          </Col>
+        </Row>
+        <h1 className="text-center">Choose category:</h1>
         {this.renderCategories()}
       </React.Fragment>
     );
