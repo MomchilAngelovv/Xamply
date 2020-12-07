@@ -53,7 +53,7 @@ class Dashboard extends React.Component {
         {this.state.categories.map(c =>
           <Col>
             <Card key={c.id}>
-              <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+              <CardImg top src={c.imageUrl} alt="Card image cap" className="img-fluid img-thumbnail"/>
               <CardBody>
                 <CardTitle tag="h5">{c.value}</CardTitle>
                 <CardText>

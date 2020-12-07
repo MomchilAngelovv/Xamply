@@ -18,6 +18,7 @@
         [MaxLength(LengthConstraints.Short)]
         public string Value { get; set; }
         public string UrlValue { get; set; }
+        public string ImageUrl { get; set; }
 
         public virtual ICollection<Exam> Exams { get; set; } = new HashSet<Exam>();
 

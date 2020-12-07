@@ -22,7 +22,8 @@ namespace Xamply.Api.Controllers
                 .Select(category => new
                 {
                     category.Id,
-                    category.Value
+                    category.Value,
+                    category.ImageUrl
                 })
                 .ToList();
 

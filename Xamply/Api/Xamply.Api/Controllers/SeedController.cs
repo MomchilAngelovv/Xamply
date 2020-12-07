@@ -63,12 +63,12 @@
             await this.userManager.CreateAsync(adminUser, Admin.Password);
             await this.userManager.AddToRoleAsync(adminUser, Xamply.Api.Services.Common.Roles.Admin);
 
-            var categories = new Dictionary<string,string> 
-            { 
-                ["History"] = "23", 
+            var categories = new Dictionary<string, string>
+            {
+                ["History"] = "23",
                 ["Politics"] = "24",
-                ["Art"] = "25", 
-                ["Sports"] = "21" 
+                ["Art"] = "25",
+                ["Sports"] = "21"
             };
 
             foreach (var category in categories)
