@@ -38,7 +38,7 @@ namespace Xamply.Api
 
             services.AddDbContext<XamplyDbContext>(options =>
             {
-                options.UseSqlServer(this.configuration.GetConnectionString("SqlServer"));
+                options.UseSqlServer(this.configuration.GetConnectionString("SqlServer")).EnableSensitiveDataLogging();
             });
 
             services.AddIdentity<XamplyUser, XamplyRole>(options =>
