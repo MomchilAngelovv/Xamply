@@ -33,7 +33,6 @@ namespace Xamply.Api
 
             services.AddControllers(options => 
             {
-
             });
 
             services.AddDbContext<XamplyDbContext>(options =>

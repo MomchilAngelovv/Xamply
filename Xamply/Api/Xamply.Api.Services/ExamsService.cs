@@ -26,9 +26,16 @@ namespace Xamply.Api.Services
             this.questionsService = questionsService;
         }
 
-
         public async Task<Exam> CreateAsync(IEnumerable<ExamQuestionApi> examQuestions, int categoryId, int difficultyId, string userId)
         {
+            //using (this.db.Database.BeginTransaction())
+            //{
+            //await this.db.SaveChangesAsync();
+            //await this.db.SaveChangesAsync();
+            //await this.db.SaveChangesAsync();
+            //await this.db.SaveChangesAsync();
+            //};
+
             var exam = new Exam
             {
                 CategoryId = categoryId,

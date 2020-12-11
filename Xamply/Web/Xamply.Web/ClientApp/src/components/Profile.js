@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux'
-import { Row, Col, Alert, ListGroup, ListGroupItem } from 'reactstrap';
+import { Row, Col, Alert, ListGroup, ListGroupItem, Button } from 'reactstrap';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -51,7 +51,12 @@ class Profile extends React.Component {
             Loading...
           </Alert>
         }
-
+        <hr />
+        <Row>
+          <Col>
+            <Button onClick={(e) => window.print(e)}>Print</Button>
+          </Col>
+        </Row>
       </React.Fragment>
     );
   }
